@@ -1,60 +1,70 @@
-<<template>
-  <div class="sign-page">
-    <el-container>
-      <div class="sign-content">
-        <div class="sign-header">
-          <h1>程序园</h1>
-          <p>与世界分享你的bug</p>  
-        </div>  
-        <el-main class="sign-group" v-show="isShow">
-          <el-form :model="SigninForm" :rules="rule" status-icon ref="SigninForm" label-width="0px" class="demo-ruleForm">
-            <el-form-item prop="name">
-              <el-input type="text" v-model="SigninForm.name" suffix-icon="el-icon-date" placeholder="请输入用户名"></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input type="password" v-model="SigninForm.password" auto-complete="off" suffix-icon="el-icon-goods" placeholder="请输入密码"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="sign-btn" type="primary" @click="Signin('SigninForm')">登录</el-button>
-            </el-form-item>
-            <div class="sign-end">
-              <span>没有账号？</span>
-              <a class="sign-to" href="javascript:void(0)" @click="ChangeShow()">注册</a>
-            </div>
-          </el-form>
-        </el-main>  
-
-        <!-- 注册 -->
-        <el-main class="sign-group" v-show="notShow">
-          <el-form :model="SignupForm" :rules="rule" status-icon ref="SignupForm" label-width="0px" class="demo-ruleForm">
-            <el-form-item prop="name">
-              <el-input type="text" v-model="SignupForm.name" placeholder="请输入用户名" suffix-icon="el-icon-date"></el-input>
-            </el-form-item>
-            <el-form-item  prop="password">
-              <el-input type="password" v-model="SignupForm.password" auto-complete="off" placeholder="请输入密码" suffix-icon="el-icon-goods"></el-input>
-            </el-form-item>
-            <el-form-item  prop="checkPwd">
-              <el-input type="password" v-model="SignupForm.checkPwd" auto-complete="off" placeholder="确认密码" suffix-icon="el-icon-goods"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="sign-btn" type="primary" @click="Signup('SignupForm')">注册</el-button>
-            </el-form-item>
-            <div class="sign-end">
-              <span>已有账号？</span>
-              <a class="sign-to" href="javascript:void(0)" @click="ChangeShow()">登录</a>
-            </div>
-          </el-form>
-        </el-main>  
-
+<template>
+  <div class="profile">
+    <el-header style="background-color:#ddd">
+      123
+    </el-header>
+    <el-main>
+      <div class="profile-header">
+        <el-card>
+          <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+         </div>
+        </el-card>
       </div>
-    </el-container>
+      <div class="profile-main">
+        <el-row :gutter="20">
+          <el-col :span="18">
+            <el-card style="min-height: 900px" >
+              
+              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" menu-trigger="click">
+                <router-link to='/profile'>
+                  <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
+                </router-link>
+                <router-link to='/profile'>
+                  <el-menu-item index="2" @click="changeIndex('2')">回答</el-menu-item>
+                </router-link>
+                <router-link to='/profile'>
+                  <el-menu-item index="3" @click="changeIndex('3')">提问</el-menu-item>
+                </router-link>  
+                <el-submenu index="4" @click="changeIndex('1')">
+                <template slot="title">关注</template>
+                  <el-menu-item index="4-1">关注的话题</el-menu-item>
+                  <el-menu-item index="4-2">关注的问题</el-menu-item>
+                  <el-menu-item index="4-3">关注的用户</el-menu-item>
+                </el-submenu>
+              </el-menu>
+              <div class="line"></div>
+              
+              <div class="main-content">
+                <router-view></router-view>
+              </div>
+            </el-card>
+          </el-col>
+          <el-col :span="6">
+            <div class="side-card">
+              <el-card>
+                123
+              </el-card>
+              <el-card>
+                1233
+              </el-card>
+              <el-card>
+                123
+              </el-card>
+            </div> <!-- end of side-card -->
+          </el-col>
+        </el-row>
+      </div>
+    </el-main>
   </div>
+
 </template>
 
-<script>
+
+<<script>
 let axios = require('axios');
 export default {
-  name: 'Signin',
+  name: 'Profile',
   data() {
     var validateSamePwd = (rule, value, callback) => {
       if (value === '') {
@@ -66,8 +76,7 @@ export default {
       }
     };
     return {
-      isShow: true,
-      notShow: false,
+      activeIndex: '1',
       csrftoken:'',
       instance: Object,
       SigninForm: {
@@ -110,8 +119,16 @@ export default {
     // axios.get('/api/')
     this.csrftoken = this.$cookie.get('csrftoken');
     console.log(this.csrftoken)
+
+    console.log(this.$store.state.nowuser)
   },
   methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    changeIndex(index) {
+        this.activeIndex = index;
+    },
     ChangeShow(isShow, notShow) {
       this.isShow = !this.isShow;
       this.notShow = !this.notShow;
@@ -164,7 +181,7 @@ export default {
               this.$message('服务器故障');
           })
           } else {
-              this.$message.warning('请正确填写信息');
+              this.$message.warning('请正确填写信息')
           }
       });
     }
@@ -173,76 +190,46 @@ export default {
 </script>
 
 <<style scoped>
-.sign-page {
+
+.profile {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
   font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
-  background-image: url("https://static.zhihu.com/heifetz/bg.8ca8122d44fc9a0f7b04.png");
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: #f4f3f3;
 }
 
-.el-container {
-  padding-top: 54px;
-  padding-bottom: 54px;
+.profile-header {
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
-.sign-content {
-  border-radius: 2px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  background-color: #fff;
-  width: 432px;
-  height: 550px;
-  margin-left: auto;
-  margin-right: auto;
+.profile-main {
+  margin-top: 0px;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-bottom: 10px;
 }
 
-.sign-header {
+.el-menu {
   position: relative;
-  top: -30px;
-  height: 
+  top: -20px;
 }
 
-.sign-content h1 {
-  font-weight: 450;
-  font-size: 60px;
-  color: #2488ec;
+.el-row {
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
-.sign-content p {
-  position: relative;
-  font-weight: 380;
-  font-size: 22px;
-  top: -40px;
-  color: #4b91e2;
+.side-card .el-card {
+  margin-bottom: 10px;
 }
 
-.sign-group {
-  position: relative;
-  top: -60px;
-  height: 335px;
-  width: 87%;
-  left: 29px;
-}
-
-.sign-btn {
-  width: 100%;
-  font-weight: 530;
-  font-size: 17px;
-}
-
-.sign-end {
-  position: absolute;
-  bottom: 35px;
-  font-size: 18px;
-  left: 32%;
-  color: #303030;
-}
-
-.sign-to {
-  color: #2e5ea2;
-}
 
 </style>

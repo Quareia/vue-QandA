@@ -1,35 +1,58 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Signin from '@/components/Signin'
-import Contacts from '@/components/Contacts'
-import Profile from '@/components/Profile'
-import TimeLine from '@/components/TimeLine'
+
+import HomePage from '@/pages/HomePage'
+import Home from '@/components/home/Home'
+import Question from '@/components/home/Question'
+import Topic from '@/components/home/Topic'
+import Profile from '@/components/home/Profile'
+import TimeLine from '@/components/profile/TimeLine'
+
+import SigninPage from '@/pages/SigninPage'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/1',
-      name: 'Signin',
-      component: Signin
-    },
-    {
-      path:'/',
-      name: 'Profile',
-      component: Profile,
+      path: '/',
+      name: 'HomePage',
+      component: HomePage,
       children: [
         {
           path: '/',
-          name: 'TimeLine',
-          component: TimeLine,
+          name: 'Home',
+          component: Home,
+        },
+        {
+          path: '/question',
+          name: 'Question',
+          component: Question,
+        },
+        {
+          path: '/topic',
+          name: 'Topic',
+          component: Topic,
+        },
+        {
+          path:'/profile',
+          name: 'Profile',
+          component: Profile,
+          children: [
+            {
+              path: '/profile',
+              name: 'TimeLine',
+              component: TimeLine,
+            },
+          ]
         },
       ]
     },
     {
-      path: '/contacts',
-      name: 'Contacts',
-      component: Contacts
-    }
+      path: '/signin',
+      name: 'SigninPage',
+      component: SigninPage
+    },
   ]
 })
+
