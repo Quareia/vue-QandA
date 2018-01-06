@@ -6,7 +6,7 @@
     <div>
       <question-list
         :nowuser="nowuser"
-        :islogin="true"
+        :islogin="islogin"
         :requesturl = "requesturl"
       >
       </question-list>
@@ -20,12 +20,8 @@ let axios = require('axios');
     components: {
       QuestionList
     },
-    props: {
-
-    },
     methods: {
       getdata: function() {
-
       }
     },
     data () {
@@ -33,11 +29,10 @@ let axios = require('axios');
         nowuser: {
           name: '',
           id: 0,
-          info: 0,
         },
         topicid: '',
         topic: '',
-        islogin: true,
+        islogin: '',
         requesturl: ''
       }
     },

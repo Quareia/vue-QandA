@@ -34,7 +34,13 @@ let axios = require('axios');
     },
     methods: {
       addfollow: function() {
-        if(this.topic.followers.indexOf(this.nowuser.id) === -1) {
+        if(this.topic.owner == this.nowuser.name) {
+          this.$message({
+            message: '您是该话题的拥有者!',
+            type: 'warning'
+          });
+        }
+        else if(this.topic.followers.indexOf(this.nowuser.id) === -1) {
           this.follownum++;
           this.topic.followers.push(this.nowuser.id)
           // 然后直接向后端发送更新请求即可
@@ -47,9 +53,9 @@ let axios = require('axios');
         }
         else {
           this.$message({
-          message: '您已经关注过该话题了!',
-          type: 'warning'
-        });
+            message: '您已经关注过该话题了!',
+            type: 'warning'
+          });
         }
       },
     },

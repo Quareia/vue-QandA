@@ -21,11 +21,13 @@
       :page-size="5"
       >
     </el-pagination>
-    <el-dialog :visible.sync="editformvisable" :center="true">
-      <!-- 问题标签 -->
-      <h3>
-        {{edittitle}}
-      </h3>
+    <el-dialog :visible.sync="editformvisable" :center="true" :title="edittitle">
+      <el-form :model="topicedit">
+        <el-form-item label="标题">
+          <el-input v-model="topicedit.title" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+
       <el-tag
         :key="tag"
         v-for="tag in dynamicTags"
@@ -48,18 +50,7 @@
       <el-button v-else class="button-new-tag" size="small" @click="showInput">
         + KeyWords
       </el-button>
-      <el-form :model="topicedit">
-        <el-form-item label="标题">
-          <el-input v-model="topicedit.title" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="关键字" >
-          <el-input
-          :rows="2"
-          autosize
-          placeholder="请输入关键字"
-          v-model="topicedit.keywords" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
+
       <el-button type="success" @click="confirmedit">确认</el-button>
       <el-button type="info"  @click= "editformvisable = false">取消</el-button>
     </el-dialog>
@@ -73,7 +64,6 @@ let axios = require('axios');
       TopicItem,
     },
     props: {
-      
       requesturl: '',
     },
     methods: {
@@ -94,6 +84,7 @@ let axios = require('axios');
           this.edittitle = "添加话题"
           this.editformvisable = true
           this.topicedit = {}
+          this.dynamicTags = []
         }
         else {
           this.$message({
@@ -114,6 +105,7 @@ let axios = require('axios');
           // 弹出问题编辑框
           this.edittitle = "编辑话题"
           this.topicedit = JSON.parse(JSON.stringify(topic)) // 深拷贝
+          this.dynamicTags = this.topicedit.keywords.split(',')
           this.editformvisable = true
         }
       },
@@ -125,6 +117,7 @@ let axios = require('axios');
           let instance = axios.create({
               headers: {"X-CSRFToken": this.csrftoken}
           });
+          this.topicedit.keywords = this.dynamicTags.join(',')
           instance.patch('/api/topics/' + this.topicedit.id + '/', this.topicedit).then(res => {
             let data = res.data
             this.topiclist = this.topiclist.filter(item =>{
@@ -146,6 +139,7 @@ let axios = require('axios');
           });
           this.topicedit.searchtimes = 0 // 搜索次数0
           this.topicedit.followers = [] // 无关注者
+          this.topicedit.keywords = this.dynamicTags.join(',')
           instance.post('/api/topics/', this.topicedit).then(res => {
             let data = res.data
             if(this.topiclist.length < 5) {
@@ -227,8 +221,7 @@ let axios = require('axios');
       }
     },
     created() {
-      this.nowuser = this.$store.state.nowuser
-      this.islogin = this.$store.state.islogin
+
     },
     mounted () {
       this.$nextTick(function () {
@@ -236,6 +229,8 @@ let axios = require('axios');
         // entire view has been rendered
         //整个视图渲染结束之后挂载
         this.getdata()
+        this.nowuser = this.$store.state.nowuser
+        this.islogin = this.$store.state.islogin
       })
     }
   }

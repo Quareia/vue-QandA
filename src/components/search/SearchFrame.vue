@@ -4,7 +4,7 @@
       ref="search-content"
       placement="bottom"
       width="400"
-      trigger="click">
+      :trigger="trigger">
       <h3>话题</h3>
       <el-table :data="searchtopic" @row-click = "gototopic">
         <el-table-column width="200" property="title" label="名称"></el-table-column>
@@ -16,12 +16,11 @@
         <el-table-column width="200" property="description" label="描述"></el-table-column>
       </el-table>
     </el-popover>
-
     <div class = "inpu">
       <el-input v-model="input" v-popover:search-content
       placeholder="请输入话题名称或者问题名称"
       prefix-icon="el-icon-search"
-      @change="getdata">
+      >
       </el-input>
     </div>
   </div>
@@ -36,11 +35,16 @@ export default {
       searchtopic: [],
       searchquestion: [],
       input:'',
+      trigger:'focus'
+    }
+  },
+  watch: {
+    input (val) {
+     this.getdata()
     }
   },
   methods: {
     getdata: function() {
-      this.$nextTick(function () {
         if(this.input !== '') {
           console.log(this.input)
           this.gettopic()
@@ -50,7 +54,6 @@ export default {
           this.searchtopic = []
           this.searchquestion = []
         }
-      })
     },
     // 跳转到用户点击的话题页面
     gototopic: function(row) {
@@ -80,10 +83,7 @@ export default {
           title:this.input
         }
       }).then(res => {
-        this.$nextTick(function () {
-          this.searchtopic = res.data.slice(0)
-        })
-        // this.searchtopic.shift()
+        this.searchtopic=res.data.slice(0)
       })
     },
     // 获取用户搜索的问题
@@ -93,10 +93,7 @@ export default {
           title:this.input
         }
       }).then(res => {
-        this.$nextTick(function () {
-          this.searchquestion = res.data.slice(0)
-        })
-        // this.searchtopic.shift()
+        this.searchquestion=res.data.slice(0)
       })
     },
   },
@@ -111,7 +108,6 @@ export default {
 {
   display: contents;
   width:200px;
-  /* height:200px; */
   transition:width 1s;
   -moz-transition:width 1s; /* Firefox 4 */
   -webkit-transition:width 1s; /* Safari and Chrome */
@@ -120,6 +116,6 @@ export default {
 
 .inpu:hover
 {
-  width:600px;
+  width:500px;
 }
 </style>

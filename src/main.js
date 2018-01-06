@@ -8,6 +8,7 @@ import router from './router'
 import Element from 'element-ui'
 //import 'animate'
 import 'element-ui/lib/theme-chalk/index.css'
+import '../static/iconfont/iconfont.css'
 
 Vue.use(Element)
 Vue.use(Vuex)
@@ -15,6 +16,7 @@ Vue.use(VueCookie)
 
 const store = new Vuex.Store({
   state: {
+    reload: false,
     islogin: false,
     nowuser: {
       id: 0,
@@ -30,6 +32,9 @@ const store = new Vuex.Store({
       state.islogin = false
       state.nowuser = {}
     },
+    first (state) {
+      state.reload = true
+    }
   }
 })
 

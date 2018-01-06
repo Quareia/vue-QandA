@@ -65,12 +65,15 @@ let axios = require('axios');
       follownum:0,
       answernum:0
     },
-    mounted () {
-
-    },
     methods: {
       addfollow: function() {
-        if(this.question.followers.indexOf(this.nowuser.id) === -1) {
+        if(this.question.owner == this.nowuser.name) {
+          this.$message({
+            message: '您是该问题的拥有者!',
+            type: 'warning'
+          });
+        }
+        else if(this.question.followers.indexOf(this.nowuser.id) === -1) {
           this.follownum++;
           this.question.followers.push(this.nowuser.id)
           // 然后直接向后端发送更新请求即可
@@ -83,9 +86,9 @@ let axios = require('axios');
         }
         else {
           this.$message({
-          message: '您已经关注过该问题了!',
-          type: 'warning'
-        });
+            message: '您已经关注过该问题了!',
+            type: 'warning'
+          });
         }
       },
     }

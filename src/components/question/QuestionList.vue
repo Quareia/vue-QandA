@@ -18,14 +18,12 @@
       </div>
     </transition-group>
 
-    <el-dialog :visible.sync="editformvisable" :center="true">
-      <!-- 问题标签 -->
-      <h3>
-        {{edittitle}}
-      </h3>
+    <el-dialog :visible.sync="editformvisable" :center="true" :title="edittitle">
       <dynamic-sel
+      v-if = "edittitle == '添加问题'"
       :selectlist = "seltopic"
-      @select = "(it => {this.questionedit.topic = it.id})">
+      v-model="state"
+      @select = "it => {this.questionedit.topic = it}">
       </dynamic-sel>
 
       <el-form :model="questionedit">
@@ -74,10 +72,12 @@ export default {
   methods: {
     getseltopic: function() {
       // 话题应该获取多少
+      axios.get('/api/topics/get_seltopic/',).then(response => {
+          console.log(response)
+          this.seltopic = response.data.slice(0)
+        })
     },
     scanquestion: function(id) {
-      // anonym user
-      // 跳转到问题详情页面
       console.log(id)
       this.$router.push({
         path: '/question',
@@ -87,8 +87,6 @@ export default {
       })
     },
     answerquestion: function(id) {
-      // after login
-      // 跳转到问题详情页面
       this.$router.push({
         path: '/question',
         query: {
@@ -97,13 +95,12 @@ export default {
       })
     },
     addquestion() {
-      // after login
-      // 弹出问题编辑框
       console.log('login state' + this.islogin)
       if(this.islogin === true) {
         this.edittitle = "添加问题"
         this.editformvisable = true
         this.questionedit = {}
+        this.getseltopic()
       }
       else {
         this.$message({
@@ -156,8 +153,7 @@ export default {
         });
         this.questionedit.searchtimes = 0 // 搜索次数0
         this.questionedit.followers = [] // 无关注者
-
-        this.questionedit.topic = 2 // test
+        console.log('topic is ' + this.questionedit.topic)
         instance.post('/api/questions/', this.questionedit).then(res => {
           let data = res.data
           if(this.questionlist.length < 5) {
@@ -171,6 +167,7 @@ export default {
           });
         })
       }
+      this.state = ''
       this.editformvisable = false
       // 将选择的关键字加到问题的关键字中
     },
@@ -210,13 +207,13 @@ export default {
     }
   },
   created() {
-    this.nowuser = this.$store.state.nowuser
-    this.islogin = this.$store.state.islogin
+
   },
   mounted() {
     this.$nextTick(function () {
       //整个视图渲染结束之后挂载
-
+      this.nowuser = this.$store.state.nowuser
+      this.islogin = this.$store.state.islogin
       this.getdata()
     })
   },
@@ -228,8 +225,8 @@ export default {
       editformvisable:false,
       questionedit:{},
       edittitle:'',
-      seltopic:[1,2,3], // temperary
-      
+      seltopic:[], // temperary
+      state: '',
       nowuser:'',
       islogin: ''
     }

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-loading.fullscreen="loading">
+  <div id="app" v-loading.fullscreen="loading" >
     <router-view v-on:loading="handleLoading"></router-view>
   </div>
 </template>
@@ -16,13 +16,13 @@ export default {
      handleLoading(loading) {
        this.loading = loading;
      } 
-  }
+  },
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

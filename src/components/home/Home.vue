@@ -1,8 +1,7 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <div>
-      </div>
+    <el-row :gutter="40" align="middle">
+
     </el-row>
     <el-row :gutter="20">
       <div>
@@ -23,19 +22,11 @@
           />
         </div>
       </el-col>
-      <!-- <el-col :span="4">
-        <div class="grid-content bg-purple">
-          <el-button v-if = "!islogin" type="success" round @click="login" >
-            验明正身
-          </el-button>
-        </div>
-      </el-col> -->
     </el-row>
   </div>
 </template>
 <script>
 import QuestionList from '@/components/question/QuestionList'
-// import SearchFrame from '../components/search/SearchFrame'
 import TopicBlock from '@/components/topic/TopicBlock'
 
 let axios = require('axios');
@@ -45,13 +36,9 @@ let axios = require('axios');
       TopicBlock,
     },
     methods: {
-      // login:function() {
-      //   this.$router.push('/login')
-      // }
     },
     data () {
       return {
-        // nowuser 应该作为全局的变量
         nowuser: {
           name: '',
           id: 0,
@@ -60,11 +47,9 @@ let axios = require('axios');
         islogin:''
       }
     },
-    mounted () {
+    created () {
       this.$nextTick(function(){this.nowuser = this.$store.state.nowuser})
-      
     },
-
   }
 </script>
 <style>

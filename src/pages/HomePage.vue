@@ -1,22 +1,47 @@
 <template>
-  <div>
+  <div class="home">
     <navigation-bar/>
-    <router-view></router-view>
+    <router-view/>
   </div>
-
 </template>
 
 
-<<script>
+<script>
+let axios = require('axios')
 import NavigationBar from '@/components/utils/NavigationBar'
 export default {
   components: {
     NavigationBar,
+  },
+  created() {
+    //if (this.$store.state.reload === true) {
+      //console.log('okokokokok')
+      //this.$router.push('/blank')
+      //this.$router.go(0)
+    //}
+    let test = this.$cookie.get('nowuser')
+    console.log('she  ' + test)
+    if(test !== null) {
+      axios.get('/api/users/' + base64decode(test) + '/').then(res => {
+        let data = res.data
+        let nowuser = {
+          name: data.username,
+          id: data.id
+        }
+        this.$store.commit('login', nowuser)
+      })
+    }
+  },
+  data() {
+    return {
+    }
   }
 }
 </script>
 
 
-<<style scoped>
-
+<style scoped>
+.home div:last-child {
+  /* margin-top: 80px; */
+}
 </style>

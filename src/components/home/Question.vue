@@ -27,11 +27,10 @@ let axios = require('axios');
         nowuser: {
           name: '',
           id: 0,
-          info: 0,
         },
         questionid: '',
         question: '',
-        islogin: true
+        islogin: ''
       }
     },
     mounted () {
@@ -41,6 +40,7 @@ let axios = require('axios');
         this.question = res.data
       })
       this.nowuser = this.$store.state.nowuser
+      this.islogin = this.$store.state.islogin
     }
   }
 </script>

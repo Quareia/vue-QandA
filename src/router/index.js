@@ -51,7 +51,7 @@ export default new Router({
     {
       path: '/signin',
       name: 'SigninPage',
-      component: SigninPage
+      component: SigninPage,
     },
   ]
 })

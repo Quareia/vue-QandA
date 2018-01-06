@@ -101,6 +101,8 @@ export default {
       // Code that will run only after the
       // entire view has been rendered
       //整个视图渲染结束之后挂载
+      this.islogin = this.$store.state.islogin
+      this.nowuser = this.$store.state.nowuser
       this.getdata()
     })
   }

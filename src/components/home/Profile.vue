@@ -1,8 +1,5 @@
 <template>
   <div class="profile">
-    <el-header style="background-color:#ddd">
-      123
-    </el-header>
     <el-main>
       <div class="profile-header">
         <el-card>
@@ -200,6 +197,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-color: #f4f3f3;
+  position: relative;
+  top: 0px;
 }
 
 .profile-header {
