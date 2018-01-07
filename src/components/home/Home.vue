@@ -1,17 +1,7 @@
 <template>
   <div class="Home">
-    <el-row :gutter="40" align="middle">
+    <!-- <el-row :gutter="40" align="middle">
 
-    </el-row>
-    <el-row :gutter="20">
-      <div>
-        Hot
-        <topic-block
-        :nowuser = "nowuser"
-        :islogin = "islogin"
-        >
-        </topic-block>
-      </div>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="20">
@@ -22,9 +12,11 @@
           />
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
+    
   </div>
 </template>
+
 <script>
 import QuestionList from '@/components/question/QuestionList'
 import TopicBlock from '@/components/topic/TopicBlock'
@@ -52,8 +44,11 @@ let axios = require('axios');
     },
   }
 </script>
-<style scoped>
+<style>
 .Home {
+  position: relative;
+  padding-top: 50px;
   width: 100ch;
+  height: 100vh;
 }
 </style>

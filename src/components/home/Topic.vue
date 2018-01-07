@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <div>
-      {{topic}}
-    </div>
-    <div>
-      <question-list
-        :nowuser="nowuser"
-        :islogin="islogin"
-        :requesturl = "requesturl"
-      >
-      </question-list>
-    </div>
+  <div class="Topic">
+    <el-row :gutter="40" align="middle">
+
+    </el-row>
+    <el-row :gutter="20">
+      <div>
+        <topic-block
+        :nowuser = "nowuser"
+        :islogin = "islogin"
+        >
+        </topic-block>
+      </div>
+    </el-row>
+    
   </div>
 </template>
+
 <script>
-import QuestionList from '@/components/question/QuestionList'
+import TopicBlock from '@/components/topic/TopicBlock'
+
 let axios = require('axios');
   export default {
     components: {
-      QuestionList
+      TopicBlock,
     },
     methods: {
-      getdata: function() {
-      }
     },
     data () {
       return {
@@ -30,22 +32,20 @@ let axios = require('axios');
           name: '',
           id: 0,
         },
-        topicid: '',
-        topic: '',
-        islogin: '',
-        requesturl: ''
+        requesturl: '/api/questions/',
+        islogin:''
       }
     },
-    mounted () {
-      this.topicid = this.$route.query.qid
-      this.requesturl = '/api/topics/'+ this.topicid + '/get_questions/'
-      axios.get('/api/topics/' + this.topicid + '/').then(res => {
-        this.topic = res.data
-      })
-      this.nowuser = this.$store.state.nowuser
+    created () {
+      this.$nextTick(function(){this.nowuser = this.$store.state.nowuser})
     },
   }
 </script>
 <style>
-
+.Topic {
+  position: relative;
+  padding-top: 50px;
+  width: 100ch;
+  height: 100vh;
+}
 </style>

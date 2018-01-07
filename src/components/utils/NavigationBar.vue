@@ -11,7 +11,7 @@
         <router-link to='/'>
           <el-menu-item index="2" @click="navChangeIndex('2')"><i class="iconfont icon-focus"></i> 发现</el-menu-item>
         </router-link>
-        <router-link to='/'>
+        <router-link to='/topic'>
           <el-menu-item index="3" @click="navChangeIndex('3')"><i class="iconfont icon-link"></i> 话题</el-menu-item>
         </router-link>
         <router-link to='/'>
@@ -43,7 +43,7 @@ import SearchFrame from '@/components/search/SearchFrame'
     },
     data() {
       return {
-        navActiveIndex: '1',
+        navActiveIndex: '0',
         nowuser:'',
         islogin: false
       }

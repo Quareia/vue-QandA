@@ -72,7 +72,7 @@ export default {
   methods: {
     getseltopic: function() {
       // 话题应该获取多少
-      axios.get('/api/topics/get_seltopic/',).then(response => {
+      axios.get('/api/topics/get_sel_topic/',).then(response => {
           console.log(response)
           this.seltopic = response.data.slice(0)
         })

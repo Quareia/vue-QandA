@@ -4,10 +4,12 @@
       <div class="profile-header">
         <el-card>
           <div class="profile-banner">
-
+            <div class="profile-title">
+              <i class="iconfont icon-my" style="font-weight:300"></i>
+              {{nowuser.name}}
+            </div>
           </div>
           <div class="profile-avatar">
-
           </div>
         </el-card>
       </div>
@@ -66,6 +68,7 @@ let axios = require('axios');
 export default {
   name: 'Profile',
   data() {
+    
     var validateSamePwd = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
@@ -76,6 +79,8 @@ export default {
       }
     };
     return {
+      nowuser:'',
+      islogin: false,
       activeIndex: '1',
       csrftoken:'',
       instance: Object,
@@ -121,6 +126,11 @@ export default {
     console.log(this.csrftoken)
 
     console.log(this.$store.state.nowuser)
+    setTimeout( ()=> {
+        this.nowuser = this.$store.state.nowuser
+        this.islogin = this.$store.state.islogin
+        console.log('nownnnnnn  ' + this.nowuser.name)
+      }, 200)
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -232,6 +242,15 @@ export default {
   background-color: #fff;
   top: 126px;
   left: 270px;
+}
+
+.profile .profile-title {
+  position: absolute;
+  top: 210px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  left: 430px;
 }
 
 .profile-main {
