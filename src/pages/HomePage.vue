@@ -41,6 +41,9 @@ export default {
 
 
 <style scoped>
+.home {
+  width: 100%;
+}
 .home div:last-child {
   /* margin-top: 80px; */
 }

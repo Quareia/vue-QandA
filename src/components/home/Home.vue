@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Home">
     <el-row :gutter="40" align="middle">
 
     </el-row>
@@ -52,6 +52,8 @@ let axios = require('axios');
     },
   }
 </script>
-<style>
-
+<style scoped>
+.Home {
+  width: 100ch;
+}
 </style>

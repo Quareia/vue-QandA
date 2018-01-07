@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search">
     <el-popover
       ref="search-content"
       placement="bottom"
@@ -16,10 +16,12 @@
         <el-table-column width="200" property="description" label="描述"></el-table-column>
       </el-table>
     </el-popover>
-    <div class = "inpu">
+    <div class="inpu">
+      <div class="search-icon">
+        <i class="iconfont icon-search"></i>
+      </div>
       <el-input v-model="input" v-popover:search-content
       placeholder="请输入话题名称或者问题名称"
-      prefix-icon="el-icon-search"
       >
       </el-input>
     </div>
@@ -103,19 +105,51 @@ export default {
 }
 </script>
 
-<style scoped>
-.inpu
-{
-  display: contents;
-  width:200px;
-  transition:width 1s;
-  -moz-transition:width 1s; /* Firefox 4 */
-  -webkit-transition:width 1s; /* Safari and Chrome */
-  -o-transition:width 1s; /* Opera */
+<style>
+.search .search-icon {
+  position: relative;
+  top: 9px;
+  z-index: 10;
+  text-align: end;
+  padding-right: 17px;
+  font-weight: 600;
+  color: #c0c4cc;
+  height: 0;
 }
 
-.inpu:hover
-{
-  width:500px;
+.search .el-input__inner {
+  z-index: 1001;
+  height: 36px;
+  border-radius: 36px;
+  font-weight: 400;
+}
+
+.search .el-input__inner::-webkit-transition {
+  width: 0.4s;
+}
+
+.search .el-input__inner::-moz-transition {
+  width: 0.4s;
+}
+
+.search .el-input__inner::-o-transition {
+  width: 0.4s;
+}
+
+.search .inpu {
+  display: contents;
+  width: 250px;
+  transition: width 0.4s;
+  top: 2px;
+  position: relative;
+  height: 36px;
+}
+
+.search .inpu:hover {
+  width: 320px;
+}
+
+.search .el-input__inner:focus {
+  border-color: #8f9299;
 }
 </style>

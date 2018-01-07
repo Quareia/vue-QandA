@@ -3,9 +3,12 @@
     <el-main>
       <div class="profile-header">
         <el-card>
-          <div v-for="o in 4" :key="o" class="text item">
-            {{'列表内容 ' + o }}
-         </div>
+          <div class="profile-banner">
+
+          </div>
+          <div class="profile-avatar">
+
+          </div>
         </el-card>
       </div>
       <div class="profile-main">
@@ -186,7 +189,7 @@ export default {
 }
 </script>
 
-<<style scoped>
+<<style>
 
 .profile {
   display: flex;
@@ -204,8 +207,31 @@ export default {
 .profile-header {
   margin-left: 150px;
   margin-right: 150px;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 10px;
+}
+
+.profile .profile-header .el-card {
+  height: 200px;
+}
+
+.profile .profile-header .el-card__body {
+  padding: 0px;
+}
+
+.profile .profile-banner {
+  height: 126px;
+  background-color: #abb8c2;
+}
+
+.profile .profile-avatar {
+  position: absolute;
+  height: 132px;
+  width: 132px;
+  border-radius: 132px;
+  background-color: #fff;
+  top: 126px;
+  left: 270px;
 }
 
 .profile-main {
@@ -215,18 +241,18 @@ export default {
   margin-bottom: 10px;
 }
 
-.el-menu {
+.profile .el-menu {
   position: relative;
   top: -20px;
 }
 
-.el-row {
+.profile .el-row {
   &:last-child {
     margin-right: 0;
   }
 }
 
-.side-card .el-card {
+.profile .side-card .el-card {
   margin-bottom: 10px;
 }
 

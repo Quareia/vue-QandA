@@ -269,12 +269,12 @@ export default {
     font-weight: 500;
     font-size: 16px;
 }
-.sign-page .el-input__inner:::-moz-placeholder { /* Mozilla Firefox 19+ */
+.sign-page .el-input__inner::-moz-placeholder { /* Mozilla Firefox 19+ */
     letter-spacing: 0px;
     font-weight: 500;
     font-size: 16px;
 }
-.el-input__inner::-ms-input-placeholder { /* Internet Explorer 10+ */
+.sign-page .el-input__inner::-ms-input-placeholder { /* Internet Explorer 10+ */
     letter-spacing: 0px;
     font-weight: 500;
     font-size: 16px;
