@@ -118,7 +118,7 @@ let axios = require('axios');
               headers: {"X-CSRFToken": this.csrftoken}
           });
           this.topicedit.keywords = this.dynamicTags.join(',')
-          instance.patch('/api/topics/' + this.topicedit.id + '/', this.topicedit).then(res => {
+          instance.patch(this.requesturl + this.topicedit.id + '/', this.topicedit).then(res => {
             let data = res.data
             this.topiclist = this.topiclist.filter(item =>{
                 return item.id !== this.topicedit.id
@@ -140,7 +140,7 @@ let axios = require('axios');
           this.topicedit.searchtimes = 0 // 搜索次数0
           this.topicedit.followers = [] // 无关注者
           this.topicedit.keywords = this.dynamicTags.join(',')
-          instance.post('/api/topics/', this.topicedit).then(res => {
+          instance.post(this.requesturl, this.topicedit).then(res => {
             let data = res.data
             if(this.topiclist.length < 5) {
               this.topiclist.push(data)
@@ -159,7 +159,7 @@ let axios = require('axios');
       },
       getnextpage: function(pageid) {
         console.log(pageid)
-        axios.get('/api/topics/', {
+        axios.get(this.requesturl, {
           params:{
             page: pageid
           }
@@ -191,12 +191,13 @@ let axios = require('axios');
         this.inputValue = '';
       },
       getdata:function() {
-        axios.get('/api/topics/',{
+        axios.get(this.requesturl,{
           params:{
             page:1
           }
         }).then(response => {
-          console.log(response)
+          console.log('kkkk' + response)
+          console.log(response.data)
           this.topiclist = response.data.results.slice(0)
           this.totalnum = response.data.count
         }); // 获取第一页话题列表
@@ -224,14 +225,17 @@ let axios = require('axios');
 
     },
     mounted () {
-      this.$nextTick(function () {
+      
         // Code that will run only after the
         // entire view has been rendered
         //整个视图渲染结束之后挂载
-        this.getdata()
-        this.nowuser = this.$store.state.nowuser
-        this.islogin = this.$store.state.islogin
-      })
+        setTimeout(()=> {
+          this.csrftoken = this.$cookie.get('csrftoken')
+          this.nowuser = this.$store.state.nowuser
+          this.islogin = this.$store.state.islogin
+          this.getdata()
+      
+        }, 200)
     }
   }
 </script>

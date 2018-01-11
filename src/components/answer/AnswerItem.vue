@@ -3,7 +3,8 @@
     <el-card :class="{showall:true,active:showall}">
 
     <div class="answer-item-topic">
-      来自话题: {{answer.ansto.title}}
+      <!-- 来自话题: {{answer.ansto.title}} -->
+      <br />
     </div>
     <div class="answer-owner">
         <img class="avatar" style="width: 24px; height: 24px; border-radius:2px" :src="'http://127.0.0.1:8000/' + imgurl"/>
@@ -11,15 +12,17 @@
         
         <div class="something">{{answer.owner.info.something}} </div>
     </div>
-    <div class="title"><a href="javascipt:void(0)" @click="$emit('scan', answer.id)">{{answer.ansto.title}}</a></div>
-    <div class="description" :class="{showall:true,active:showall}">{{answer.description}}</div>
+    <div class="title"><a href="javascipt:void(0)" @click="$emit('scan', answer.ansto.id)">{{answer.ansto.title}}</a></div>
+    <div class="description" :class="{showall:true,active:showall}">
+      <mavon-editor ref=md :toolbarsFlag="false" :subfield="false" default_open="preview" :value="answer.description"></mavon-editor>
+    </div>
     <div class="answer-item-end">
       <!-- <span>{{answernum}}个回答 · {{follownum}}人关注</span> -->
       <!-- 问题信息  通过添加slot复用 -->
-          <el-button class="agree" :class="{isactive1:true,active:isactive1}" size="small" @click="agree()">
+          <el-button class="agree" :class="{isactive1:true,active:isactive1}"  type="small" @click="agree">
             <i class="iconfont icon-agree"></i> {{answer.ansagree}}
           </el-button>
-          <el-button class="disagree" :class="{isactive2:true,active:isactive2}" size="small" @click="disagree()">
+          <el-button class="disagree" :class="{isactive2:true,active:isactive2}" type="small"  @click="against">
             <i class="iconfont icon-disagree"></i>
           </el-button>
           <el-button @click="$emit('answer', answer.id)">我要回答</el-button>
@@ -68,22 +71,43 @@ let axios = require('axios');
         console.log(this.showall)
       },
       agree: function() {
-        this.$emit('agree', this.answer.id)
-        this.isactive1 = !this.isactive1
-        if (this.isactive1 == true) {
-          this.answer.ansagree += 1
-          this.isactive2 = false
-        }
-        else this.answer.ansagree -= 1
-      },
-      disagree: function() {
-        this.$emit('disagree', this.answer.id)
-        this.isactive2 = !this.isactive2
-         if (this.isactive1 == true) {
-          this.isactive1 = false
-          this.answer.ansagree -= 1
-        }
-        else this.answer.ansagree += 1
+      console.log(this.answer)
+      if(this.answer.owner == this.$store.state.nowuser.name) {
+        this.$message({
+          message: '您是该答案的拥有者!',
+          type: 'warning'
+        });
+      }
+      else {
+        this.answer.ansagree++;
+        // 然后直接向后端发送更新请求即可
+        let id = this.answer.id
+        axios.get('/api/answers/' + id + '/agree_answer/').then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+        }) // url末尾要加/
+      }
+    },
+    against: function() {
+      console.log(this.answer)
+      if(this.answer.owner == this.$store.state.nowuser.name) {
+        this.$message({
+          message: '您是该答案的拥有者!',
+          type: 'warning'
+        });
+      }
+      else {
+        this.answer.ansagainst++;
+        let id = this.answer.id
+        // 然后直接向后端发送更新请求即可
+        axios.get('/api/answers/' + id + '/against_answer/').then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+        }) // url末尾要加/
       }
     },
     mounted() {
@@ -91,7 +115,7 @@ let axios = require('axios');
       if (this.nowuser.id == this.answer.owner.id) 
         this.myself = true
     },
-  }
+  }}
 </script>
 
 <style>

@@ -4,6 +4,7 @@
     <el-row :gutter="8">
       <el-col :span="17">
         <div class="home-main">
+           
           <!-- <el-card>
             <el-button>提问</el-button>
             <el-button>提问</el-button>
@@ -19,7 +20,9 @@
       <el-col :span="7">
         <div class="home-side">
           <el-card>
-              123
+              <my-message>
+                
+              </my-message>
             </el-card>
             <el-card>
               1233
@@ -34,11 +37,13 @@
 
 <script>
 import AnswerList from '@/components/answer/AnswerList'
+import MyMessage from './MyMessage'
 
 let axios = require('axios');
   export default {
     components: {
       AnswerList,
+      MyMessage
     },
     methods: {
     },

@@ -1,20 +1,20 @@
 <template>
   <div>
-    <div class="question-questionList">
-      <question-list :requesturl="requesturl">
+    <div >
+      <topic-block :requesturl="requesturl">
         
-      </question-list>
+      </topic-block>
     </div>
   </div>
 </template>
 
 <script>
-import QuestionList from '@/components/question/QuestionList'
+import TopicBlock from '@/components/topic/TopicBlock'
 let axios = require('axios');
 export default {
-  name: 'QuestionFollow',
+  name: 'TopicFollow',
   components: {
-    QuestionList
+    TopicBlock
   },
   data() {
     return {
@@ -26,7 +26,7 @@ export default {
   },
   created() {
     setTimeout(()=> {
-      this.requesturl = '/api/userinfos/'+this.$store.state.nowuser.id+'/my_follow_questions/'
+      this.requesturl = '/api/userinfos/'+this.$store.state.nowuser.id+'/my_follow_topics/'
     },200)
   }
 }

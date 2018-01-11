@@ -7,8 +7,9 @@ import Question from '@/components/home/Question'
 import QuestionDetail from '@/components/question/QuestionDetail'
 import Topic from '@/components/home/Topic'
 import Profile from '@/components/home/Profile'
-import TimeLine from '@/components/profile/TimeLine'
+import MyAnswer from '@/components/profile/MyAnswer'
 import QuestionFollow from '@/components/profile/QuestionFollow'
+import TopicFollow from '@/components/profile/TopicFollow'
 
 import SigninPage from '@/pages/SigninPage'
 
@@ -48,13 +49,23 @@ export default new Router({
           children: [
             {
               path: '/profile',
-              name: 'TimeLine',
-              component: TimeLine,
+              name: 'MyAnswer',
+              component: MyAnswer,
+            },
+            {
+              path: '/profile/my_answers',
+              name: 'My',
+              component: QuestionFollow,
             },
             {
               path: '/profile/follow_question',
               name: 'QuestionFollow',
               component: QuestionFollow,
+            },
+            {
+              path: '/profile/follow_topic',
+              name: 'TopicFollow',
+              component: TopicFollow,
             },
           ]
         },
@@ -65,6 +76,10 @@ export default new Router({
       name: 'SigninPage',
       component: SigninPage,
     },
+    {
+      path: "*",
+      redirect: "/"
+    }
   ]
 })
 

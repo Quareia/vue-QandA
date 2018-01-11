@@ -45,14 +45,6 @@ export default {
     questionid: 0,
   },
   methods: {
-  
-    agree: function(id) {
-      console.log(123)
-      axios.get('/api/answers/'+ id +'/agree_answer')
-    },
-    disagree: function(id) {
-      axios.get('/api/answers/'+ id +'/against_answer')
-    },
     scanquestion: function(id) {
       console.log(id)
       this.$router.push({
@@ -63,48 +55,21 @@ export default {
       })
     },
     answerquestion: function(id) {
-      this.$router.push({
-        path: '/question',
-        query: {
-          qid: id
-        }
-      })
+      if (this.islogin === true) {
+        this.$router.push({
+          path: '/question',
+          query: {
+            qid: id
+          }
+        })
+      } 
+      else {
+        this.$message({
+          message: '请先登陆再提问!',
+          type: 'warning'
+        });
+      }
     },
-    // editanswer: function(question) {
-    //   console.log(question)
-    //   if(question.owner.username !== this.nowuser.name) {
-    //     this.$message({
-    //       message: '您不是该回答的拥有者,无法编辑!',
-    //       type: 'warning'
-    //     });
-    //   }
-    //   else {
-    //     // 弹出问题编辑框
-    //     this.edittitle = "编辑回答"
-    //     this.questionedit = JSON.parse(JSON.stringify(question)) // 深拷贝
-    //     this.editformvisable = true
-    //   }
-    // },
-    // confirmedit: function() {
-    //   console.log(this.dynamicTags)
-    //     // 编辑问题后发送
-    //     console.log('编辑')
-    //     let instance = axios.create({
-    //       headers: {"X-CSRFToken": this.csrftoken}
-    //     });
-    //     instance.patch('/api/questions/' + this.questionedit.id + '/', this.questionedit).then(res => {
-    //       let data = res.data
-    //       this.questionlist = this.questionlist.filter(item =>{
-    //           return item.id !== this.questionedit.id
-    //       })
-    //       console.log(data)
-    //       this.questionlist.push(data)
-    //       this.$message({
-    //         type: 'success',
-    //         message: '修改成功!'
-    //       }) // 重新排列元素会导致搜索的选择改变？
-    //     })
-    //   },
     getnextpage: function(pageid) {
       console.log('pageid:---' ,pageid)
       axios.get(this.requesturl, {
@@ -171,17 +136,16 @@ export default {
       bind: function (el, binding){
         setTimeout(()=> {
         window.addEventListener('scroll', ()=> {
-            console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
-            if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
-              if(!scrollDisable) {
-                let fnc = binding.value;   
-                fnc(); 
-              }
-              console.log('load data')
+          // console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
+          if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
+            if(!scrollDisable) {
+              let fnc = binding.value;   
+              fnc(); 
             }
-         
-        })
-          }, 200)
+              console.log('load data')
+            }        
+          })
+        }, 200)
       }
     }
   },
@@ -206,7 +170,7 @@ export default {
 </script>
 <style>
 
-.que-loading {
+.ans-loading {
   position: fixed;
   width: 706px;
   height: 100px;
@@ -216,22 +180,17 @@ export default {
   background-color: transparent
 }
 
-.que_list .h3 {
+.ans_list .h3 {
   text-align: center;
 }
-.que_list .el-card {
+.ans_list .el-card {
   margin-bottom: 8px;
 }
 
-.que_list .el-card__body {
-  padding: 18px;
+.ans_list .el-card__body {
   height: auto;
 }
 
-.v-note-wrapper {
-  min-width: 200px;
-  width: 200px;
-}
 </style>
 
 

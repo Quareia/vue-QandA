@@ -5,9 +5,8 @@
         提问
       </el-button>
     </div>
-    <div v-loading="isloading" class="que-loading"></div>
     <transition-group tag="div" name="slide" mode = "out-in"
-    enter-class="bounceInDown" leave-class="bounceOutUp" v-scroll="loadMore" >
+    enter-class="bounceInDown" leave-class="bounceOutUp" >
       <div v-for="item in questionlist" :key="item.id" >
         <question-item
         :nowuser = "nowuser"
@@ -46,15 +45,6 @@
       <el-button type="info"  @click= "editformvisable = false">取消</el-button>
     </el-dialog>
 
-    <div class="block">
-      <!-- <el-pagination
-        layout="prev, pager, next"
-        :total="totalnum"
-        @current-change="getnextpage"
-        :page-size="5"
-        >
-      </el-pagination> -->
-    </div>
   </div>
 </template>
 <script>
@@ -90,20 +80,12 @@ export default {
       })
     },
     answerquestion: function(id) {
-      if (this.islogin === true) {
-        this.$router.push({
-          path: '/question',
-          query: {
-            qid: id
-          }
-        })
-      } 
-      else {
-        this.$message({
-          message: '请先登陆再提问!',
-          type: 'warning'
-        });
-      }
+      this.$router.push({
+        path: '/question',
+        query: {
+          qid: id
+        }
+      })
     },
     addquestion() {
       console.log('login state' + this.islogin)
@@ -167,9 +149,9 @@ export default {
         console.log('topic is ' + this.questionedit.topic)
         instance.post('/api/questions/', this.questionedit).then(res => {
           let data = res.data
-          
+          if(this.questionlist.length < 5) {
             this.questionlist.push(data)
-          
+          }
           this.totalnum++
           scrollDisable = false;
 
@@ -188,30 +170,11 @@ export default {
       // 向后端发送请求删除问题
       // 最后写
     },
-    getnextpage: function(pageid) {
-      console.log('pageid:---' ,pageid)
-      axios.get(this.requesturl, {
-        params:{
-          page: pageid
-        }
-      }).then(
-        response => {
-          console.log(response)
-          if(response.data.next === null) {
-            this.$message.warning('已经是最后一页!')
-            scrollDisable = true
-          }
-          this.questionlist=[...this.questionlist, ...response.data.results.slice(0)]
-      });
-    }, // 分页
     getdata:function() {
       axios.get(this.requesturl,{
-        params:{
-          page:1
-        }
       }).then(response => {
         console.log(response)
-        this.questionlist = response.data.results.slice(0)
+        this.questionlist = response.data.slice(0)
         this.totalnum = response.data.count
       }); // 获取第一页联系人列表
       this.csrftoken = this.$cookie.get('csrftoken');
@@ -219,19 +182,6 @@ export default {
       console.log(this.csrftoken)
     
     },
-    loadMore() {
-      // 开始加载数据，就不能再次触发这个函数了
-      scrollDisable = true;
-      this.isloading = true;
-      this.pageid++
-      this.getnextpage(this.pageid)
-      // 插入数据完成后  
-      setTimeout(()=>{
-
-        this.isloading = false;
-      }, 1000) 
-      scrollDisable = false;
-    }
   },
   created() {
 
@@ -240,32 +190,13 @@ export default {
     setTimeout( ()=> {
       this.nowuser = this.$store.state.nowuser
       this.islogin = this.$store.state.islogin
-      console.log('get jjj :  ' + this.nowuser.name)
-      this.getdata()
-      scrollDisable = false
+      console.log('nowuser is:  ' + this.nowuser.name)
+    this.getdata()
+    scrollDisable = false
     }, 300)
   },
   destroyed() {
     scrollDisable = true
-  },
-  directives: {
-    scroll: {
-      bind: function (el, binding){
-        setTimeout(()=> {
-        window.addEventListener('scroll', ()=> {
-            // console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
-            if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
-              if(!scrollDisable) {
-                let fnc = binding.value;   
-                fnc(); 
-              }
-              console.log('load data')
-            }
-         
-        })
-          }, 200)
-      }
-    }
   },
   data() {
     return {
@@ -306,7 +237,6 @@ export default {
 }
 
 .que_list .el-card__body {
-  /* padding: 18px; */
   height: auto;
 }
 

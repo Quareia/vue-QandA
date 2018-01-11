@@ -11,12 +11,10 @@
         <router-link to='/questions'>
           <el-menu-item index="2" @click="navChangeIndex('2')"><i class="iconfont icon-focus"></i> 发现</el-menu-item>
         </router-link>
-        <router-link to='/'>
+        <router-link to='/topics'>
           <el-menu-item index="3" @click="navChangeIndex('3')"><i class="iconfont icon-link"></i> 话题</el-menu-item>
         </router-link>
-        <router-link to='/'>
-          <el-menu-item index="4" @click="navChangeIndex('4')"><i class="iconfont icon-message"></i> 消息</el-menu-item>
-        </router-link>
+          <el-menu-item index="4" @click="msg()"><i class="iconfont icon-message"></i> 消息</el-menu-item>
       </span>
       <span class="right-nav">
         <el-submenu index="5" v-if="islogin">
@@ -53,6 +51,7 @@ import SearchFrame from '@/components/search/SearchFrame'
         imgurl: '',
         hasimg: false,
         requesturl:'/api/userinfos/',
+        message: [],
       }
     },
     mounted() {
@@ -71,6 +70,19 @@ import SearchFrame from '@/components/search/SearchFrame'
       }, 200)
     },
     methods: {
+      msg() {
+        axios.get('/api/messages/my_receive_messages/').then(res => {
+          console.log(res)
+          this.message = res.data.results.slice(0)
+          for (var i=1; i<= res.data.count; i++) {
+            this.$notify({
+            title: '消息',
+            message: this.message[i-1].content,
+            duration: 0
+          });
+          }
+        })
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath)
       },

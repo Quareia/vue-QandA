@@ -29,7 +29,7 @@
               <router-link to='/profile'>
                 <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
               </router-link>
-              <router-link to='/profile'>
+              <router-link to='/profile/my_answers'>
                 <el-menu-item index="2" @click="changeIndex('2')">回答</el-menu-item>
               </router-link>
               <router-link to='/profile'>
@@ -37,11 +37,12 @@
               </router-link>  
               <el-submenu index="4" @click="changeIndex('1')">
               <template slot="title">关注</template>
-                <el-menu-item index="4-1">关注的话题</el-menu-item>
+                <router-link to='/profile/follow_topic'>
+                  <el-menu-item index="4-1">关注的话题</el-menu-item>
+                </router-link>
                 <router-link to='/profile/follow_question'>
                   <el-menu-item index="4-2">关注的问题</el-menu-item>
                 </router-link>
-                <el-menu-item index="4-3">关注的用户</el-menu-item>
               </el-submenu>
             </el-menu>
             <div class="line"></div>
@@ -135,14 +136,15 @@ export default {
       instance.put('/api/userinfos/' + this.nowuser.id + '/',param).then(res => {
         let data = res.data
         console.log('img' + data)
+        this.imgurl = data.userimg_url
         this.$message({
           message: '头像上传成功！',
           type: 'success'
         });
-        setTimeout(() => {
-          this.$router.go(0)
-        }, 200);
-        // this.hasAvatar = true
+        // setTimeout(() => {
+        //   this.$router.go(0)
+        // }, 200);
+        this.hasAvatar = true
       })
     }
 

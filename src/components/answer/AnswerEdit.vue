@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="editor">
     <mavon-editor ref=md @imgAdd="$imgAdd" @save="upload" :toolbars = "toolbars" :value="test1"></mavon-editor>
   </div>
 </template>
@@ -37,7 +37,10 @@ let axios = require('axios');
           let url = 'http://127.0.0.1:8000/' + res.data.image_url
           console.log(res.data.image_url) // 设置
           this.$refs.md.$img2Url(pos, url);
-        })
+        }).catch((error)=> {
+          this.$message('服务器故障')
+        });
+        
       },
       upload: function(value, render) {
         // 只需要将value上传到服务器的答案的描述中，然后用mavon显示即可
@@ -56,7 +59,9 @@ let axios = require('axios');
               type: 'success'
             });
             this.answer = ''
-        })
+        }).catch((error)=> {
+          this.$message('服务器故障')
+        });
       },
     },
     data () {
@@ -86,5 +91,8 @@ let axios = require('axios');
   }
 </script>
 <style>
-
+#editor {
+  position: relative;
+  bottom: 50px;
+}
 </style>
