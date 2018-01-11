@@ -4,9 +4,11 @@ import Router from 'vue-router'
 import HomePage from '@/pages/HomePage'
 import Home from '@/components/home/Home'
 import Question from '@/components/home/Question'
+import QuestionDetail from '@/components/question/QuestionDetail'
 import Topic from '@/components/home/Topic'
 import Profile from '@/components/home/Profile'
 import TimeLine from '@/components/profile/TimeLine'
+import QuestionFollow from '@/components/profile/QuestionFollow'
 
 import SigninPage from '@/pages/SigninPage'
 
@@ -25,12 +27,17 @@ export default new Router({
           component: Home,
         },
         {
-          path: '/question',
+          path: '/questions',
           name: 'Question',
           component: Question,
         },
         {
-          path: '/topic',
+          path: '/question',
+          name: 'QuestionDetail',
+          component: QuestionDetail,
+        },
+        {
+          path: '/topics',
           name: 'Topic',
           component: Topic,
         },
@@ -43,6 +50,11 @@ export default new Router({
               path: '/profile',
               name: 'TimeLine',
               component: TimeLine,
+            },
+            {
+              path: '/profile/follow_question',
+              name: 'QuestionFollow',
+              component: QuestionFollow,
             },
           ]
         },

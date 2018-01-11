@@ -22,7 +22,7 @@ export default {
 
 <style>
 #app {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Microsoft YaHei, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

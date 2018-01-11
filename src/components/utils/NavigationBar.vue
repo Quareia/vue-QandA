@@ -8,10 +8,10 @@
         <router-link to='/'>
           <el-menu-item index="1" @click="navChangeIndex('1')"><i class="iconfont icon-home"></i> 主页</el-menu-item>
         </router-link>
-        <router-link to='/'>
+        <router-link to='/questions'>
           <el-menu-item index="2" @click="navChangeIndex('2')"><i class="iconfont icon-focus"></i> 发现</el-menu-item>
         </router-link>
-        <router-link to='/topic'>
+        <router-link to='/'>
           <el-menu-item index="3" @click="navChangeIndex('3')"><i class="iconfont icon-link"></i> 话题</el-menu-item>
         </router-link>
         <router-link to='/'>
@@ -20,7 +20,11 @@
       </span>
       <span class="right-nav">
         <el-submenu index="5" v-if="islogin">
-          <template slot="title">{{nowuser.name}}</template>
+          <template slot="title">
+            
+            <div v-if="!hasimg">{{nowuser.name}}</div>
+             <img v-else class="profile-img" style="width: 32px; height: 32px; border-radius:4px" :src="'http://127.0.0.1:8000/' + imgurl"/>
+          </template>
 
           <router-link to='/profile'>
           <el-menu-item index="5-1"><i class="iconfont icon-profile"></i> 个人中心</el-menu-item>
@@ -45,7 +49,10 @@ import SearchFrame from '@/components/search/SearchFrame'
       return {
         navActiveIndex: '0',
         nowuser:'',
-        islogin: false
+        islogin: false,
+        imgurl: '',
+        hasimg: false,
+        requesturl:'/api/userinfos/',
       }
     },
     mounted() {
@@ -53,6 +60,14 @@ import SearchFrame from '@/components/search/SearchFrame'
         this.nowuser = this.$store.state.nowuser
         this.islogin = this.$store.state.islogin
         console.log('nownnnnnn  ' + this.nowuser.name)
+        axios.get(this.requesturl + this.nowuser.id + '/').then(res => {
+          let data = res.data
+          console.log(data)
+          if (data.userimg_url != null) {
+            this.hasimg = true
+            this.imgurl = data.userimg_url
+          }
+          })
       }, 200)
     },
     methods: {
@@ -132,8 +147,8 @@ import SearchFrame from '@/components/search/SearchFrame'
 } 
 
 .right-nav .el-submenu>.el-menu .el-menu-item {
-  min-width: 60px;
-  width: 60px;
+  min-width: 100px;
+  width: 100px;
 }
 
 .nav .el-menu-item {
@@ -153,6 +168,12 @@ import SearchFrame from '@/components/search/SearchFrame'
 
 .nav a {
   text-decoration-line: none;
+}
+
+.nav .el-menu--horizontal .el-submenu .el-submenu__icon-arrow {
+  position: fixed;
+  right: 118px;
+  top: 21px;
 }
 
 </style>

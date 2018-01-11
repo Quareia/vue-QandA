@@ -38,13 +38,17 @@ let axios = require('axios');
     },
     created () {
       this.$nextTick(function(){this.nowuser = this.$store.state.nowuser})
+      
     },
+    destroyed() {
+      console.log('topic die')
+    }
   }
 </script>
 <style>
 .Topic {
   position: relative;
-  padding-top: 50px;
+  padding-top: 56px;
   width: 100ch;
   height: 100vh;
 }

@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home-page">
     <navigation-bar/>
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -41,12 +41,12 @@ export default {
 
 
 <style scoped>
-.home {
+.home-page {
   width: 100%;
   background-color: #f4f4f3;
 
 }
-.home div:last-child {
+.home-page div:last-child {
   /* margin-top: 80px; */
 }
 </style>

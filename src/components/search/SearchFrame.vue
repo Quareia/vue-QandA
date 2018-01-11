@@ -21,7 +21,7 @@
         <i class="iconfont icon-search"></i>
       </div>
       <el-input v-model="input" v-popover:search-content
-      placeholder="请输入话题名称或者问题名称"
+      placeholder="搜索你感兴趣的内容..."
       >
       </el-input>
     </div>
@@ -82,20 +82,22 @@ export default {
     gettopic: function() {
       axios.get('/api/topics/search/',{
         params:{
-          title:this.input
+          title:this.input,
+          page:1
         }
       }).then(res => {
-        this.searchtopic=res.data.slice(0)
+        this.searchtopic=res.data.results.slice(0)
       })
     },
     // 获取用户搜索的问题
     getquestion: function() {
       axios.get('/api/questions/search/',{
         params:{
-          title:this.input
+          title:this.input,
+          page:1
         }
       }).then(res => {
-        this.searchquestion=res.data.slice(0)
+        this.searchquestion=res.data.results.slice(0)
       })
     },
   },
@@ -108,7 +110,7 @@ export default {
 <style>
 .search .search-icon {
   position: relative;
-  top: 9px;
+  top: 6px;
   z-index: 10;
   text-align: end;
   padding-right: 17px;
@@ -122,6 +124,7 @@ export default {
   height: 36px;
   border-radius: 36px;
   font-weight: 400;
+  background-color: #f4f4f3;
 }
 
 .search .el-input__inner::-webkit-transition {

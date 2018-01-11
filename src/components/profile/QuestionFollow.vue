@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div class="question-questionList">
       <question-list :requesturl="requesturl">
         <p>hh</p>
@@ -12,17 +12,23 @@
 import QuestionList from '@/components/question/QuestionList'
 let axios = require('axios');
 export default {
-  name: 'TimeLine',
+  name: 'QuestionFollow',
   components: {
     QuestionList
   },
   data() {
     return {
-      requesturl: '/api/questions/my_questions/',
+      requesturl: '',
     }
   },
   methods: {
 
+  },
+  created() {
+    setTimeout(()=> {
+
+      this.requesturl = '/api/userinfos/'+this.$store.state.nowuser.id+'/my_follow_questions/'
+    },200)
   }
 }
 </script>

@@ -6,6 +6,8 @@ import VueCookie from 'vue-cookie'
 import App from './App'
 import router from './router'
 import Element from 'element-ui'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 //import 'animate'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../static/iconfont/iconfont.css'
@@ -13,6 +15,7 @@ import '../static/iconfont/iconfont.css'
 Vue.use(Element)
 Vue.use(Vuex)
 Vue.use(VueCookie)
+Vue.use(mavonEditor)
 
 const store = new Vuex.Store({
   state: {

@@ -1,11 +1,14 @@
 <template>
-  <div class = "que_list">
-    <el-button type="success" round @click="addquestion">
-      我要提问
-    </el-button>
+  <div class = "que_list" >
+    <div class="add-question">
+      <el-button size="small" id="add-question" @click="addquestion">
+        提问
+      </el-button>
+    </div>
+    <div v-loading="isloading" class="que-loading"></div>
     <transition-group tag="div" name="slide" mode = "out-in"
-    enter-class="bounceInDown" leave-class="bounceOutUp">
-      <div v-for="item in questionlist" :key="item.id">
+    enter-class="bounceInDown" leave-class="bounceOutUp" v-scroll="loadMore" >
+      <div v-for="item in questionlist" :key="item.id" >
         <question-item
         :nowuser = "nowuser"
         :question = "item"
@@ -44,13 +47,13 @@
     </el-dialog>
 
     <div class="block">
-      <el-pagination
+      <!-- <el-pagination
         layout="prev, pager, next"
         :total="totalnum"
         @current-change="getnextpage"
         :page-size="5"
         >
-      </el-pagination>
+      </el-pagination> -->
     </div>
   </div>
 </template>
@@ -60,7 +63,7 @@
 import QuestionItem from './QuestionItem'
 import DynamicSel from '../utils/DynamicSel'
 let axios = require('axios');
-
+let scrollDisable = false
 export default {
   name: 'QuestionList',
   components: {
@@ -111,7 +114,7 @@ export default {
     },
     editquestion: function(question) {
       console.log(question)
-      if(question.owner !== this.nowuser.name) {
+      if(question.owner.username !== this.nowuser.name) {
         this.$message({
           message: '您不是该问题的拥有者,无法编辑问题!',
           type: 'warning'
@@ -160,6 +163,7 @@ export default {
             this.questionlist.push(data)
           }
           this.totalnum++
+          scrollDisable = false;
 
           this.$message({
             message: '提问成功!',
@@ -177,7 +181,7 @@ export default {
       // 最后写
     },
     getnextpage: function(pageid) {
-      console.log(pageid)
+      console.log('pageid:---' ,pageid)
       axios.get(this.requesturl, {
         params:{
           page: pageid
@@ -186,9 +190,10 @@ export default {
         response => {
           console.log(response)
           if(response.data.next === null) {
-            this.$message.warning('没有更多的问题了!')
+            this.$message.warning('已经是最后一页!')
+            scrollDisable = true
           }
-          this.questionlist = response.data.results.slice(0)
+          this.questionlist=[...this.questionlist, ...response.data.results.slice(0)]
       });
     }, // 分页
     getdata:function() {
@@ -204,22 +209,61 @@ export default {
       this.csrftoken = this.$cookie.get('csrftoken');
       // 保存csrftoken
       console.log(this.csrftoken)
+    
+    },
+    loadMore() {
+      // 开始加载数据，就不能再次触发这个函数了
+      scrollDisable = true;
+      this.isloading = true;
+      this.pageid++
+      this.getnextpage(this.pageid)
+      // 插入数据完成后  
+      setTimeout(()=>{
+
+        this.isloading = false;
+      }, 1000) 
+      scrollDisable = false;
     }
   },
   created() {
 
   },
   mounted() {
-    this.$nextTick(function () {
-      //整个视图渲染结束之后挂载
+    setTimeout( ()=> {
       this.nowuser = this.$store.state.nowuser
       this.islogin = this.$store.state.islogin
-      this.getdata()
-    })
+      console.log('nowuser is:  ' + this.nowuser.name)
+    this.getdata()
+    scrollDisable = false
+    }, 300)
+  },
+  destroyed() {
+    scrollDisable = true
+  },
+  directives: {
+    scroll: {
+      bind: function (el, binding){
+        setTimeout(()=> {
+        window.addEventListener('scroll', ()=> {
+            console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
+            if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
+              if(!scrollDisable) {
+                let fnc = binding.value;   
+                fnc(); 
+              }
+              console.log('load data')
+            }
+         
+        })
+          }, 200)
+      }
+    }
   },
   data() {
     return {
+      pageid:1,
       questionlist:[],
+      topiclist:[],
       csrftoken:'',
       totalnum:0,
       editformvisable:false,
@@ -228,13 +272,46 @@ export default {
       seltopic:[], // temperary
       state: '',
       nowuser:'',
-      islogin: ''
+      islogin: '',
+      isloading: false
     }
   }
 }
 </script>
-<style scoped>
-h3 {
+<style>
+
+.que-loading {
+  position: fixed;
+  width: 706px;
+  height: 100px;
+  left: 174px;
+  bottom: 0px;
+  z-index: 1000;
+  background-color: transparent
+}
+
+.que_list .h3 {
   text-align: center;
 }
+.que_list .el-card {
+  margin-bottom: 8px;
+}
+
+.que_list .el-card__body {
+  padding: 18px;
+  height: auto;
+}
+
+.que_list .add-question {
+  position: fixed;
+  z-index: 1002;
+  top: 8px;
+  right: 640px;
+}
+
+.que_list #add-question {
+  background-color:#2488ec;
+  color: #e3effd;
+}
+
 </style>

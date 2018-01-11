@@ -1,63 +1,71 @@
 <template>
   <div class="profile">
-    <el-main>
-      <div class="profile-header">
-        <el-card>
-          <div class="profile-banner">
-            <div class="profile-title">
-              <i class="iconfont icon-my" style="font-weight:300"></i>
-              {{nowuser.name}}
-            </div>
+    <div class="profile-header">
+      <el-card>
+        <div class="profile-banner">
+          <div class="profile-title">
+            <i class="iconfont icon-my" style="font-weight:300"></i>
+            {{nowuser.name}}
           </div>
-          <div class="profile-avatar">
+        </div>
+        <div class="profile-avatar">
+          <div class="add-avatar" v-if="!hasAvatar" ><i class="iconfont icon-cameraadd" style="font-size: 36px;"></i>
+            <input id="upimg" class="file" name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update" title="上传头像"/>
           </div>
-        </el-card>
-      </div>
-      <div class="profile-main">
-        <el-row :gutter="20">
-          <el-col :span="18">
-            <el-card style="min-height: 900px" >
-              
-              <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" menu-trigger="click">
-                <router-link to='/profile'>
-                  <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
-                </router-link>
-                <router-link to='/profile'>
-                  <el-menu-item index="2" @click="changeIndex('2')">回答</el-menu-item>
-                </router-link>
-                <router-link to='/profile'>
-                  <el-menu-item index="3" @click="changeIndex('3')">提问</el-menu-item>
-                </router-link>  
-                <el-submenu index="4" @click="changeIndex('1')">
-                <template slot="title">关注</template>
-                  <el-menu-item index="4-1">关注的话题</el-menu-item>
+          <img v-else class="profile-img" :src="'http://127.0.0.1:8000/' + imgurl"/>
+          <div class="edit-avatar" v-if="hasAvatar" ><i class="iconfont icon-cameraadd" style="font-size: 36px;"></i>
+            <input id="editimg" class="file1" name="file1" type="file" accept="image/png,image/gif,image/jpeg" @change="update" title="更换头像"/>
+          </div>
+        </div>
+      </el-card>
+    </div>
+
+    <div class="profile-main">
+      <el-row :gutter="8">
+        <el-col :span="17">
+          <el-card style="min-height: 900px" >
+            
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" menu-trigger="click">
+              <router-link to='/profile'>
+                <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
+              </router-link>
+              <router-link to='/profile'>
+                <el-menu-item index="2" @click="changeIndex('2')">回答</el-menu-item>
+              </router-link>
+              <router-link to='/profile'>
+                <el-menu-item index="3" @click="changeIndex('3')">提问</el-menu-item>
+              </router-link>  
+              <el-submenu index="4" @click="changeIndex('1')">
+              <template slot="title">关注</template>
+                <el-menu-item index="4-1">关注的话题</el-menu-item>
+                <router-link to='/profile/follow_question'>
                   <el-menu-item index="4-2">关注的问题</el-menu-item>
-                  <el-menu-item index="4-3">关注的用户</el-menu-item>
-                </el-submenu>
-              </el-menu>
-              <div class="line"></div>
-              
-              <div class="main-content">
-                <router-view></router-view>
-              </div>
+                </router-link>
+                <el-menu-item index="4-3">关注的用户</el-menu-item>
+              </el-submenu>
+            </el-menu>
+            <div class="line"></div>
+            
+            <div class="main-content">
+              <router-view></router-view>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="7" >
+          <div class="side-card">
+            <el-card>
+              123
             </el-card>
-          </el-col>
-          <el-col :span="6">
-            <div class="side-card">
-              <el-card>
-                123
-              </el-card>
-              <el-card>
-                1233
-              </el-card>
-              <el-card>
-                123
-              </el-card>
-            </div> <!-- end of side-card -->
-          </el-col>
-        </el-row>
-      </div>
-    </el-main>
+            <el-card>
+              1233
+            </el-card>
+            <el-card>
+              123
+            </el-card>
+          </div> <!-- end of side-card -->
+        </el-col>
+      </el-row>
+    </div>
   </div>
 
 </template>
@@ -68,55 +76,17 @@ let axios = require('axios');
 export default {
   name: 'Profile',
   data() {
-    
-    var validateSamePwd = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.SignupForm.password) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
     return {
+      // hasAavtar: false,
       nowuser:'',
       islogin: false,
       activeIndex: '1',
       csrftoken:'',
       instance: Object,
-      SigninForm: {
-        name: '',
-        password: ''
-      },
-      SignupForm: {
-        name: '',
-        password: '',
-        checkPwd: ''
-      },
-      rule: {
-        name: [
-          { required: true, message: ' ', trigger: 'blur' },
-          { type: 'string',
-            min: 2,
-            max: 6,
-            message: '请输入2至6个字符的用户名',
-            trigger: 'blur'
-          }
-        ],
-        password: [
-          { required: true, message: ' ', trigger: 'blur' },
-          { type: 'string',
-            min: 6,
-            max: 10,
-            message: '请输入6至10位的密码',
-            trigger: 'blur'
-          }
-        ],
-        checkPwd: [
-          { required: true, message: ' ', trigger: 'blur' },
-          { validator: validateSamePwd, trigger: 'blur' }
-        ]
-      }
+      requesturl:'/api/userinfos/',
+      imgurl: '',
+      hasAvatar: false,
+      file:'',
     };
   },
   mounted() {
@@ -129,8 +99,19 @@ export default {
     setTimeout( ()=> {
         this.nowuser = this.$store.state.nowuser
         this.islogin = this.$store.state.islogin
-        console.log('nownnnnnn  ' + this.nowuser.name)
+        console.log('nowuser is:  ' + this.nowuser.name)
+        axios.get(this.requesturl + this.nowuser.id + '/').then(res => {
+          let data = res.data
+          console.log(data)
+          if (data.userimg_url != null) {
+            this.hasAvatar = true
+            this.imgurl = data.userimg_url
+          }
+          })
       }, 200)
+
+    
+
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -139,86 +120,53 @@ export default {
     changeIndex(index) {
         this.activeIndex = index;
     },
-    ChangeShow(isShow, notShow) {
-      this.isShow = !this.isShow;
-      this.notShow = !this.notShow;
+    update(e) {
+      let file = e.target.files[0];
+      this.file=file
+      this.upload_img()
     },
-    Signup(formName) {
-      this.$refs[formName].validate(valid => {
-        if(valid) {
-          let instance = axios.create({
-            headers: {"X-CSRFToken": this.csrftoken}
-          });
-          instance.post('/api/login/', this.SignupForm).then(res => {
-          let data = res.data
-          console.log(data);
-            if(data.status !== '1') {
-              console.log(data.msg)
-              this.$message.error(data.msg);
-            } else {
-              this.$message('welcome, '+ this.SignupForm.name);
-              setTimeout(()=>{
-              this.$router.push('/Contacts');
-              },500)
-            }
-          });
-        } else {
-          this.$message.warning('请正确填写信息')
-        }}
-      );
-    },
-    Signin(formName) {
-      this.$refs[formName].validate(valid => {
-        if(valid) {
-          console.log(this.SigninForm);
-          let instance = axios.create({
-            headers: {"X-CSRFToken": this.csrftoken}
-          });
-
-          instance.post('/api/login/', this.SigninForm).then(res => {
-            let data = res.data;
-            console.log(res.data);
-            if(data.status !== '1') {
-              this.$message.error(data.msg)
-            } else {
-              this.$message('welcome, '+this.SigninForm.name);
-              setTimeout(()=>{
-              this.$router.push('/Contacts');
-              },500)
-            }
-          }).catch((error) => {
-              console.log(error)
-              this.$message('服务器故障');
-          })
-          } else {
-              this.$message.warning('请正确填写信息')
-          }
+    upload_img() {
+      let instance = axios.create({
+        headers: {"X-CSRFToken": this.$cookie.get('csrftoken')}
       });
+      let param = new FormData();
+            // 此处name对应序列化的name
+      param.append('userimg',this.file,this.file.name);
+      instance.put('/api/userinfos/' + this.nowuser.id + '/',param).then(res => {
+        let data = res.data
+        console.log('img' + data)
+        this.$message({
+          message: '头像上传成功！',
+          type: 'success'
+        });
+        setTimeout(() => {
+          this.$router.go(0)
+        }, 200);
+        // this.hasAvatar = true
+      })
     }
+
   }
 }
 </script>
 
-<<style>
+<style>
 
 .profile {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 100vh;
-  font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
-  background-size: cover;
-  background-repeat: no-repeat;
   background-color: #f4f3f3;
   position: relative;
   top: 0px;
+  padding-top: 56px;
 }
 
 .profile-header {
-  margin-left: 150px;
-  margin-right: 150px;
-  margin-top: 50px;
-  margin-bottom: 10px;
+  margin-left: 174px;
+  margin-right: 174px;
+  margin-bottom: 8px;
 }
 
 .profile .profile-header .el-card {
@@ -238,26 +186,106 @@ export default {
   position: absolute;
   height: 132px;
   width: 132px;
-  border-radius: 132px;
+  border-radius: 50%;
   background-color: #fff;
-  top: 126px;
-  left: 270px;
+  top: 116px;
+  left: 240px;
+  padding: 3px;
 }
+
+.profile .profile-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* background-color: #fff; */
+}
+
+/* 增加头像 */
+
+.add-avatar {
+    height: 100%;
+    width: 100%;
+    line-height: 132px;
+    position: relative;
+    cursor: pointer;
+    color: #fff;
+    background: #abb8c2;
+    /* border: 1px solid #ddd; */
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+.add-avatar #upimg {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.add-avatar:hover {
+    color: #444;
+    background: #abb8c2;
+    text-decoration: none
+}
+
+/* 修改头像 */
+.edit-avatar {
+    top: -136px;
+    height: 100%;
+    width: 100%;
+    line-height: 132px;
+    position: relative;
+    cursor: pointer;
+    color: transparent;
+    background: transparent;
+    /* border: 1px solid #ddd; */
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+.edit-avatar #editimg {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.edit-avatar:hover {
+    color: #444;
+    background: rgba(0, 0, 0, 0.5);
+    text-decoration: none
+}
+
+
+/* 用户名 */
 
 .profile .profile-title {
   position: absolute;
-  top: 210px;
+  top: 200px;
   font-size: 20px;
   font-weight: 600;
   color: #000;
-  left: 430px;
+  left: 410px;
 }
 
 .profile-main {
   margin-top: 0px;
-  margin-left: 150px;
-  margin-right: 150px;
-  margin-bottom: 10px;
+  margin-left: 174px;
+  margin-right: 174px;
+  margin-bottom: 8px;
 }
 
 .profile .el-menu {
@@ -265,14 +293,17 @@ export default {
   top: -20px;
 }
 
-.profile .el-row {
+/* .profile .el-row {
   &:last-child {
     margin-right: 0;
   }
-}
+} */
 
 .profile .side-card .el-card {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+
+
+
 }
 
 
