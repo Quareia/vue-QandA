@@ -1,6 +1,6 @@
 <template>
   <div class = "ans_list" >
-    <div v-loading="isloading" class="ans-loading"></div>
+
     <transition-group tag="div" name="slide" mode = "out-in"
     enter-class="bounceInDown" leave-class="bounceOutUp" v-scroll="loadMore" >
       <div v-for="item in answerlist" :key="item.id" >
@@ -12,6 +12,7 @@
         />
       </div>
     </transition-group>
+    <div v-loading="isloading" class="ans-loading"></div>
     <slot>
       <answer-edit
       :questionid = "questionid"
@@ -62,7 +63,7 @@ export default {
             qid: id
           }
         })
-      } 
+      }
       else {
         this.$message({
           message: '请先登陆再提问!',
@@ -99,7 +100,7 @@ export default {
       this.csrftoken = this.$cookie.get('csrftoken');
       // 保存csrftoken
       console.log(this.csrftoken)
-    
+
     },
     loadMore() {
       // 开始加载数据，就不能再次触发这个函数了
@@ -107,11 +108,11 @@ export default {
       this.isloading = true;
       this.pageid++
       this.getnextpage(this.pageid)
-      // 插入数据完成后  
+      // 插入数据完成后
       setTimeout(()=>{
 
         this.isloading = false;
-      }, 1000) 
+      }, 1000)
       scrollDisable = false;
     }
   },
@@ -123,7 +124,7 @@ export default {
       this.nowuser = this.$store.state.nowuser
       this.islogin = this.$store.state.islogin
       console.log('nowuser is:  ' + this.nowuser.name)
-      
+
     this.getdata()
     scrollDisable = false
     }, 300)
@@ -139,11 +140,11 @@ export default {
           // console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
           if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
             if(!scrollDisable) {
-              let fnc = binding.value;   
-              fnc(); 
+              let fnc = binding.value;
+              fnc();
             }
               console.log('load data')
-            }        
+            }
           })
         }, 200)
       }
@@ -153,7 +154,7 @@ export default {
     return {
       pageid:1,
       answerlist:[],
-      
+
       csrftoken:'',
       totalnum:0,
       editformvisable:false,
@@ -171,7 +172,6 @@ export default {
 <style>
 
 .ans-loading {
-  position: fixed;
   width: 706px;
   height: 100px;
   left: 174px;

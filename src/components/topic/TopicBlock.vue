@@ -196,14 +196,14 @@ let axios = require('axios');
             page:1
           }
         }).then(response => {
-          console.log('kkkk' + response)
-          console.log(response.data)
+          // console.log('kkkk' + response)
+          // console.log(response.data)
           this.topiclist = response.data.results.slice(0)
           this.totalnum = response.data.count
         }); // 获取第一页话题列表
         this.csrftoken = this.$cookie.get('csrftoken');
         // 保存csrftoken
-        console.log(this.csrftoken)
+        // console.log(this.csrftoken)
       }
     },
     data () {
@@ -225,17 +225,17 @@ let axios = require('axios');
 
     },
     mounted () {
-      
+
         // Code that will run only after the
         // entire view has been rendered
         //整个视图渲染结束之后挂载
-        setTimeout(()=> {
-          this.csrftoken = this.$cookie.get('csrftoken')
-          this.nowuser = this.$store.state.nowuser
-          this.islogin = this.$store.state.islogin
-          this.getdata()
-      
-        }, 200)
+      setTimeout(()=> {
+        this.csrftoken = this.$cookie.get('csrftoken')
+        this.nowuser = this.$store.state.nowuser
+        this.islogin = this.$store.state.islogin
+        this.getdata()
+
+      }, 200)
     }
   }
 </script>

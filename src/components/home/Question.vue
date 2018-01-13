@@ -4,11 +4,6 @@
     <el-row :gutter="8">
       <el-col :span="17">
         <div class="question-main">
-          <!-- <el-card>
-            <el-button>提问</el-button>
-            <el-button>提问</el-button>
-            <el-button>提问</el-button>
-          </el-card> -->
           <div class="question-questionList">
             <question-list :requesturl="requesturl"/>
           </div>
@@ -58,7 +53,6 @@ let axios = require('axios');
       setTimeout( ()=> {
         this.nowuser = this.$store.state.nowuser
         this.islogin = this.$store.state.islogin
-        console.log('nowuser is:  ' + this.nowuser.name)
       }, 200)
     },
   }

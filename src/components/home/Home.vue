@@ -4,7 +4,7 @@
     <el-row :gutter="8">
       <el-col :span="17">
         <div class="home-main">
-           
+
           <!-- <el-card>
             <el-button>提问</el-button>
             <el-button>提问</el-button>
@@ -20,14 +20,10 @@
       <el-col :span="7">
         <div class="home-side">
           <el-card>
-              <my-message>
-                
-              </my-message>
-            </el-card>
-            <el-card>
-              1233
-            </el-card>
-            
+            <my-message>
+
+            </my-message>
+          </el-card>
         </div>
       </el-col>
     </el-row>

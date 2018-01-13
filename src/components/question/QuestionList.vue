@@ -5,7 +5,7 @@
         提问
       </el-button>
     </div>
-    <div v-loading="isloading" class="que-loading"></div>
+
     <transition-group tag="div" name="slide" mode = "out-in"
     enter-class="bounceInDown" leave-class="bounceOutUp" v-scroll="loadMore" >
       <div v-for="item in questionlist" :key="item.id" >
@@ -20,8 +20,9 @@
         />
       </div>
     </transition-group>
-
+    <div v-loading="isloading" class="que-loading"></div>
     <el-dialog :visible.sync="editformvisable" :center="true" :title="edittitle">
+      <div>选择话题</div>
       <dynamic-sel
       v-if = "edittitle == '添加问题'"
       :selectlist = "seltopic"
@@ -45,16 +46,6 @@
       <el-button type="success" @click="confirmedit">确认</el-button>
       <el-button type="info"  @click= "editformvisable = false">取消</el-button>
     </el-dialog>
-
-    <div class="block">
-      <!-- <el-pagination
-        layout="prev, pager, next"
-        :total="totalnum"
-        @current-change="getnextpage"
-        :page-size="5"
-        >
-      </el-pagination> -->
-    </div>
   </div>
 </template>
 <script>
@@ -97,7 +88,7 @@ export default {
             qid: id
           }
         })
-      } 
+      }
       else {
         this.$message({
           message: '请先登陆再提问!',
@@ -146,7 +137,7 @@ export default {
         instance.patch('/api/questions/' + this.questionedit.id + '/', this.questionedit).then(res => {
           let data = res.data
           this.questionlist = this.questionlist.filter(item =>{
-              return item.id !== this.questionedit.id
+            return item.id !== this.questionedit.id
           })
           console.log(data)
           this.questionlist.push(data)
@@ -167,16 +158,14 @@ export default {
         console.log('topic is ' + this.questionedit.topic)
         instance.post('/api/questions/', this.questionedit).then(res => {
           let data = res.data
-          
-            this.questionlist.push(data)
-          
-          this.totalnum++
-          scrollDisable = false;
-
-          this.$message({
-            message: '提问成功!',
-            type: 'success'
-          });
+          axios.get('/api/questions/' + data.id + '/').then((res) => {
+            this.questionlist.push(res.data)
+            this.totalnum++
+            this.$message({
+              message: '提问成功!',
+              type: 'success'
+            });
+          })
         })
       }
       this.state = ''
@@ -216,8 +205,7 @@ export default {
       }); // 获取第一页联系人列表
       this.csrftoken = this.$cookie.get('csrftoken');
       // 保存csrftoken
-      console.log(this.csrftoken)
-    
+      // console.log(this.csrftoken)
     },
     loadMore() {
       // 开始加载数据，就不能再次触发这个函数了
@@ -225,11 +213,10 @@ export default {
       this.isloading = true;
       this.pageid++
       this.getnextpage(this.pageid)
-      // 插入数据完成后  
+      // 插入数据完成后
       setTimeout(()=>{
-
         this.isloading = false;
-      }, 1000) 
+      }, 1000)
       scrollDisable = false;
     }
   },
@@ -240,7 +227,7 @@ export default {
     setTimeout( ()=> {
       this.nowuser = this.$store.state.nowuser
       this.islogin = this.$store.state.islogin
-      console.log('get jjj :  ' + this.nowuser.name)
+      // console.log('get jjj :  ' + this.nowuser.name)
       this.getdata()
       scrollDisable = false
     }, 300)
@@ -256,12 +243,12 @@ export default {
             // console.log(document.documentElement.scrollTop, window.innerHeight,document.body.clientHeight)
             if (document.documentElement.scrollTop + window.innerHeight >= document.body.clientHeight) {
               if(!scrollDisable) {
-                let fnc = binding.value;   
-                fnc(); 
+                let fnc = binding.value;
+                fnc();
               }
               console.log('load data')
             }
-         
+
         })
           }, 200)
       }
@@ -289,7 +276,7 @@ export default {
 <style>
 
 .que-loading {
-  position: fixed;
+  /* position: fixed; */
   width: 706px;
   height: 100px;
   left: 174px;

@@ -40,7 +40,7 @@ let axios = require('axios');
         }).catch((error)=> {
           this.$message('服务器故障')
         });
-        
+
       },
       upload: function(value, render) {
         // 只需要将value上传到服务器的答案的描述中，然后用mavon显示即可
@@ -53,7 +53,7 @@ let axios = require('axios');
         param.append('description',value);
         instance.post('/api/answers/', param).then(res => {
           console.log(res)
-          this.$emit('addanswer', res)
+          this.$emit('addanswer', res.data)
             this.$message({
               message: '回答成功!',
               type: 'success'

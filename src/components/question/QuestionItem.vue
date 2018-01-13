@@ -7,7 +7,7 @@
     <div class="question-owner">
         <img class="avatar" style="width: 24px; height: 24px; border-radius:2px" :src="'http://127.0.0.1:8000/' + imgurl"/>
         <div class="name">{{question.owner.username}}</div>
-        
+
         <div class="something">{{question.owner.info.something}} </div>
     </div>
     <div class="title"><a href="javascipt:void(0)" @click="$emit('scan', question.id)">{{question.title}}</a></div>
@@ -16,10 +16,8 @@
       <span>{{answernum}}个回答 · {{follownum}}人关注</span>
       <!-- 问题信息  通过添加slot复用 -->
           <el-button size="small" @click="$emit('answer', question.id)">我要回答</el-button>
-        <!-- <el-badge :value="follownum" class="item"> -->
           <el-button v-if="!isfollow" size="small" @click="addfollow">关注问题</el-button>
           <el-button v-else size="small" @click="cancelfollow" id="isfollow">已关注</el-button>
-        <!-- </el-badge> -->
         <el-button v-if="myself" size="small" @click="$emit('edit', question)">编辑</el-button>
       <el-button v-if="!showall" @click="changeall()" class="right_child">
         查看更多 <i class="iconfont icon-unfold" style="font-size:8px"></i>
@@ -41,6 +39,7 @@ let axios = require('axios');
         imgurl: '',
         myself: false,
         isfollow: false,
+        followbutton: '关注问题'
       }
     },
     props: {
@@ -62,12 +61,13 @@ let axios = require('axios');
         console.log(this.showall)
       },
       cancelfollow: function() {
-        
+
         axios.get('/api/questions/' + this.question.id + '/cancel_follow/').then(res =>{
+          this.follownum--;
           this.$message({
-              message: res.data.msg,
-              type: 'success',
-        })
+            message: res.data.msg,
+            type: 'success',
+          })
           this.isfollow = false
         })
       },
@@ -80,7 +80,7 @@ let axios = require('axios');
         }
         else if(this.question.followers.indexOf(this.nowuser.id) === -1) {
           this.follownum++;
-          this.question.followers.push(this.nowuser.id)
+          //this.question.followers.push(this.nowuser.id)
           // 然后直接向后端发送更新请求即可
           axios.get('/api/questions/' + this.question.id + '/follow_question/').then(res => {
             this.$message({
@@ -90,21 +90,15 @@ let axios = require('axios');
             this.isfollow = true
           }) // url末尾要加/
         }
-        else {
-          this.$message({
-            message: '您已经关注过该问题了!',
-            type: 'warning'
-          });
-        }
       },
     },
     mounted() {
-    this.imgurl = this.question.owner.info.userimg_url
-    if (this.question.owner == this.nowuser.name) 
-      this.myself = true
-    if(!(this.question.followers.indexOf(this.nowuser.id) === -1))
-      this.isfollow = true
-    },
+        this.imgurl = this.question.owner.info.userimg_url
+        if (this.question.owner == this.nowuser.name)
+          this.myself = true
+        if(!(this.question.followers.indexOf(this.nowuser.id) === -1))
+          this.isfollow = true
+      },
   }
 </script>
 
@@ -120,7 +114,7 @@ let axios = require('axios');
 
 .question-item .left_child {
   float: left;
-  
+
 }
 
 .question-item .right_child {

@@ -10,7 +10,6 @@ import Profile from '@/components/home/Profile'
 import MyAnswer from '@/components/profile/MyAnswer'
 import QuestionFollow from '@/components/profile/QuestionFollow'
 import TopicFollow from '@/components/profile/TopicFollow'
-
 import SigninPage from '@/pages/SigninPage'
 
 Vue.use(Router)

@@ -10,7 +10,6 @@
       <el-badge :value="answer.ansagainst" class="item">
         <el-button size="small" @click="against">反对</el-button>
       </el-badge>
-      <el-button type="success" round @click="$emit('edit',answer.id)">编辑</el-button>
     </div>
   </div>
 </template>

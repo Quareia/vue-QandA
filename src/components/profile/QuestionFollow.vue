@@ -2,7 +2,6 @@
   <div>
     <div class="question-questionList">
       <question-list :requesturl="requesturl">
-        
       </question-list>
     </div>
   </div>

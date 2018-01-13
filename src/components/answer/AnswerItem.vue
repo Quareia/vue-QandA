@@ -9,7 +9,6 @@
     <div class="answer-owner">
         <img class="avatar" style="width: 24px; height: 24px; border-radius:2px" :src="'http://127.0.0.1:8000/' + imgurl"/>
         <div class="name">{{answer.owner.username}}</div>
-        
         <div class="something">{{answer.owner.info.something}} </div>
     </div>
     <div class="title"><a href="javascipt:void(0)" @click="$emit('scan', answer.ansto.id)">{{answer.ansto.title}}</a></div>
@@ -112,7 +111,7 @@ let axios = require('axios');
     },
     mounted() {
       this.imgurl = this.answer.owner.info.userimg_url
-      if (this.nowuser.id == this.answer.owner.id) 
+      if (this.nowuser.id == this.answer.owner.id)
         this.myself = true
     },
   }}
@@ -130,7 +129,7 @@ let axios = require('axios');
 
 .answer-item .left_child {
   float: left;
-  
+
 }
 
 .answer-item .right_child {

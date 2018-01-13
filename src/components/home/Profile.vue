@@ -24,7 +24,7 @@
       <el-row :gutter="8">
         <el-col :span="17">
           <el-card style="min-height: 900px" >
-            
+
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" menu-trigger="click">
               <router-link to='/profile'>
                 <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
@@ -34,7 +34,7 @@
               </router-link>
               <router-link to='/profile'>
                 <el-menu-item index="3" @click="changeIndex('3')">提问</el-menu-item>
-              </router-link>  
+              </router-link>
               <el-submenu index="4" @click="changeIndex('1')">
               <template slot="title">关注</template>
                 <router-link to='/profile/follow_topic'>
@@ -46,7 +46,7 @@
               </el-submenu>
             </el-menu>
             <div class="line"></div>
-            
+
             <div class="main-content">
               <router-view></router-view>
             </div>
@@ -94,25 +94,21 @@ export default {
     // 组件渲染加载完成之后获取csrftoken
     // axios.get('/api/')
     this.csrftoken = this.$cookie.get('csrftoken');
-    console.log(this.csrftoken)
-
-    console.log(this.$store.state.nowuser)
+    // console.log(this.csrftoken)
+    // console.log(this.$store.state.nowuser)
     setTimeout( ()=> {
         this.nowuser = this.$store.state.nowuser
         this.islogin = this.$store.state.islogin
         console.log('nowuser is:  ' + this.nowuser.name)
         axios.get(this.requesturl + this.nowuser.id + '/').then(res => {
           let data = res.data
-          console.log(data)
+          // console.log(data)
           if (data.userimg_url != null) {
             this.hasAvatar = true
             this.imgurl = data.userimg_url
           }
           })
       }, 200)
-
-    
-
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -135,15 +131,12 @@ export default {
       param.append('userimg',this.file,this.file.name);
       instance.put('/api/userinfos/' + this.nowuser.id + '/',param).then(res => {
         let data = res.data
-        console.log('img' + data)
+        // console.log('img' + data)
         this.imgurl = data.userimg_url
         this.$message({
           message: '头像上传成功！',
           type: 'success'
         });
-        // setTimeout(() => {
-        //   this.$router.go(0)
-        // }, 200);
         this.hasAvatar = true
       })
     }

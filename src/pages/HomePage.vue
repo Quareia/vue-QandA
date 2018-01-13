@@ -14,13 +14,8 @@ export default {
     NavigationBar,
   },
   created() {
-    //if (this.$store.state.reload === true) {
-      //console.log('okokokokok')
-      //this.$router.push('/blank')
-      //this.$router.go(0)
-    //}
     let test = this.$cookie.get('nowuser')
-    console.log('she  ' + test)
+    // console.log('she  ' + test)
     if(test !== null) {
       axios.get('/api/users/' + base64decode(test) + '/').then(res => {
         let data = res.data
