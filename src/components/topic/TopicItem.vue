@@ -4,7 +4,7 @@
     <div class="text item">
       {{ topic.title }}
     </div>
-    <div class="text item">
+    <div class="text item" style="font-size:16px;">
       {{ topic.keywords }}
     </div>
     <div class="inside-button">

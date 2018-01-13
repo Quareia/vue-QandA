@@ -86,6 +86,7 @@ let axios = require('axios');
             message: res.data.msg,
             type: 'success'
           });
+          this.isactive1 = true
         }) // url末尾要加/
       }
     },
@@ -106,6 +107,7 @@ let axios = require('axios');
             message: res.data.msg,
             type: 'success'
           });
+          this.isactive2 = true
         }) // url末尾要加/
       }
     },
@@ -120,6 +122,7 @@ let axios = require('axios');
 <style>
 
 .answer-item {
+  z-index: 1;
   height: auto;
   background-color: #fff;
   margin-bottom: 8px;

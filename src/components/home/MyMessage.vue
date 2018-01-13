@@ -1,5 +1,6 @@
 <template>
-  <div class="topic">
+  <div class="message">
+    <div style="float:left"><i style="font-size:20px;color:#b1b2b5;font-weight:600" class="iconfont icon-community"></i> 未读消息</div><br />
     <div v-for="item in messagelist" :key="item.id">
       <div>{{item.content}}</div>
       <el-button size="mini" round @click="readmessage(item)">我知道了</el-button>
@@ -143,4 +144,5 @@ let axios = require('axios');
   }
 </script>
 <style>
+
 </style>

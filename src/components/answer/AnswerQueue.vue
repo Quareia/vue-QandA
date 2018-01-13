@@ -2,7 +2,7 @@
   <div>
     <transition-group tag="div" name="slide">
       <div v-for="item in answerlist" :key="item.id">
-        <answer-show
+        <answer-show  class="answer-queue"
         :answer = "item"
         @edit = "editanswer">
         </answer-show>
@@ -19,7 +19,7 @@
       <br />
       <br />
       <br />
-      <answer-edit
+      <answer-edit class="answeredit"
       :questionid = "questionid"
       :islogin = "islogin"
       @addanswer = "addanswer"
@@ -114,9 +114,14 @@ export default {
 </script>
 <style>
 
-.v-note-wrapper {
+.answeredit .v-note-wrapper {
   width: 90%;
   left: 5%;
-  
 }
+
+.answer-queue .v-note-panel {
+  padding-top: 90px;
+  padding-bottom: 80px;
+}
+
 </style>

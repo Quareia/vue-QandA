@@ -48,7 +48,7 @@
       >
       </el-input>
       <el-button v-else class="button-new-tag" size="small" @click="showInput">
-        + KeyWords
+        + 关键词
       </el-button>
 
       <el-button type="success" @click="confirmedit">确认</el-button>

@@ -7,6 +7,22 @@
             <i class="iconfont icon-my" style="font-weight:300"></i>
             {{nowuser.name}}
           </div>
+          <div class="profile-something">
+            {{something}}
+          </div>
+          <div class="profile-edit">
+            <el-button v-if="islogin" @click="editprofile">修改个人信息</el-button>
+          </div>
+           <el-dialog :visible.sync="editformvisable" :center="true">
+            <el-form :model="userinfo">
+              <el-form-item label="个人信息">
+                <el-input v-model="userinfo.something" auto-complete="off" :placeholder="something"></el-input>
+              </el-form-item>
+          
+            </el-form>
+            <el-button @click="confirmedit">确认</el-button>
+            <el-button @click="editformvisable = false">取消</el-button>
+          </el-dialog>
         </div>
         <div class="profile-avatar">
           <div class="add-avatar" v-if="!hasAvatar" ><i class="iconfont icon-cameraadd" style="font-size: 36px;"></i>
@@ -55,14 +71,11 @@
         <el-col :span="7" >
           <div class="side-card">
             <el-card>
-              123
+              <my-message>
+
+            </my-message>
             </el-card>
-            <el-card>
-              1233
-            </el-card>
-            <el-card>
-              123
-            </el-card>
+            
           </div> <!-- end of side-card -->
         </el-col>
       </el-row>
@@ -72,10 +85,14 @@
 </template>
 
 
-<<script>
+<script>
+import MyMessage from './MyMessage'
 let axios = require('axios');
 export default {
   name: 'Profile',
+   components: {
+      MyMessage,
+    },
   data() {
     return {
       // hasAavtar: false,
@@ -88,6 +105,9 @@ export default {
       imgurl: '',
       hasAvatar: false,
       file:'',
+      something:'',
+      editformvisable: false,
+      userinfo: {},
     };
   },
   mounted() {
@@ -106,11 +126,24 @@ export default {
           if (data.userimg_url != null) {
             this.hasAvatar = true
             this.imgurl = data.userimg_url
+            this.something = data.something
           }
           })
       }, 200)
   },
   methods: {
+    editprofile() {
+        this.editformvisable = true
+    },
+    confirmedit() {
+        let instance = axios.create({
+          headers: {"X-CSRFToken": this.$cookie.get('csrftoken')}
+        });
+         
+        instance.put('/api/userinfos/' + this.nowuser.id + '/',param).then(res => {
+
+        })
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -269,11 +302,24 @@ export default {
 
 .profile .profile-title {
   position: absolute;
-  top: 200px;
+  top: 188px;
   font-size: 20px;
   font-weight: 600;
   color: #000;
   left: 410px;
+}
+
+.profile .profile-something {
+  position: absolute;
+  top: 220px;
+  font-size: 15px;
+  left: 430px;
+}
+
+.profile .profile-edit {
+  position: absolute;
+  top: 200px;
+  right: 266px;
 }
 
 .profile-main {

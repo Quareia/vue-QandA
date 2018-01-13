@@ -34,11 +34,11 @@
       <el-col :span="7">
         <div class="topic-side">
           <el-card>
-              123
+              <my-message>
+
+            </my-message>
             </el-card>
-            <el-card>
-              1233
-            </el-card>
+          
             
         </div>
       </el-col>
@@ -50,12 +50,14 @@
 <script>
 import TopicBlock from '@/components/topic/TopicBlock'
 import RecommandQuestion from '@/components/question/RecommandQuestion'
+import MyMessage from './MyMessage'
 
 let axios = require('axios');
   export default {
     components: {
       TopicBlock,
-      RecommandQuestion
+      RecommandQuestion,
+      MyMessage
     },
     methods: {
     },

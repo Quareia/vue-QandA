@@ -12,14 +12,11 @@
       <el-col :span="7">
         <div class="question-side">
           <el-card>
-              123
+              <my-message>
+
+            </my-message>
             </el-card>
-            <el-card>
-              1233
-            </el-card>
-            <el-card>
-              123
-            </el-card>
+            
         </div>
       </el-col>
     </el-row>
@@ -29,11 +26,13 @@
 
 <script>
 import QuestionList from '@/components/question/QuestionList'
+import MyMessage from './MyMessage'
 
 let axios = require('axios');
   export default {
     components: {
       QuestionList,
+      MyMessage,
     },
     methods: {
     },
