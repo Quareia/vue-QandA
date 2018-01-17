@@ -5,8 +5,8 @@
     <el-container>
       <div class="sign-content">
         <div class="sign-header">
-          <h1>程序园</h1>
-          <p>与世界分享你的bug</p>
+          <h1>知乎</h1>
+          <p>注册知乎，发现更大的世界</p>
         </div>
         <el-main class="sign-group" v-show="isShow">
           <el-form :model="SigninForm" :rules="rule" status-icon ref="SigninForm" label-width="0px" class="demo-ruleForm">

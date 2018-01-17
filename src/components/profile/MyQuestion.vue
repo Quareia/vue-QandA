@@ -1,24 +1,24 @@
 <template>
   <div >
-    <div class="answer-answerList">
-      <answer-list :requesturl="requesturl">
-      <br />
-      </answer-list>
+    <div class="question-questionList">
+      <question-list :requesturl="requesturl">
+        <br />
+      </question-list>
     </div>
   </div>
 </template>
 
 <script>
-import AnswerList from '@/components/answer/AnswerList'
+import QuestionList from '@/components/question/QuestionList'
 let axios = require('axios');
 export default {
-  name: 'MyAnswer',
+  name: 'MyQuestion',
   components: {
-    AnswerList
+    QuestionList
   },
   data() {
     return {
-      requesturl: '/api/answers/my_answers/',
+      requesturl: '/api/questions/my_questions/',
     }
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style>
-/* .answer {
+/* .question {
   min-height: 700px;
   position: relative;
   width: 100%;
@@ -36,7 +36,7 @@ export default {
   display: flex;
 }
 
-.answer .answer-answerList {
+.question .question-questionList {
   margin-top: 8px;
 }   */
 </style>

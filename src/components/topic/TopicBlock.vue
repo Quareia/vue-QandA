@@ -1,5 +1,6 @@
 <template>
   <div class="topic">
+    <el-button type="primary" class="topic-btn" @click="addtopic">提出话题</el-button>
     <el-row :gutter="20" >
       <el-col :span="4.5" v-for = "item in topiclist" :key = "item.id">
         <topic-item
@@ -13,7 +14,7 @@
         </topic-item>
       </el-col>
     </el-row>
-    <el-button type="success" round @click="addtopic">提出话题</el-button>
+    
     <el-pagination
       layout="prev, pager, next"
       :total="totalnum"
@@ -51,7 +52,7 @@
         + 关键词
       </el-button>
 
-      <el-button type="success" @click="confirmedit">确认</el-button>
+      <el-button type="primary" @click="confirmedit">确认</el-button>
       <el-button type="info"  @click= "editformvisable = false">取消</el-button>
     </el-dialog>
   </div>
@@ -258,4 +259,9 @@ let axios = require('axios');
   margin-left: 10px;
   vertical-align: bottom;
 }
+
+.topic-btn {
+
+}
+
 </style>

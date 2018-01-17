@@ -94,7 +94,7 @@ let axios = require('axios');
     },
     mounted() {
         this.imgurl = this.question.owner.info.userimg_url
-        if (this.question.owner == this.nowuser.name)
+        if (this.question.owner.username == this.nowuser.name)
           this.myself = true
         if(!(this.question.followers.indexOf(this.nowuser.id) === -1))
           this.isfollow = true
@@ -184,7 +184,7 @@ let axios = require('axios');
   font-size: 15px;
   position: relative;
   top: -20px;
-  left: 36px;
+  left: 50px;
 }
 
 .question-item .title {

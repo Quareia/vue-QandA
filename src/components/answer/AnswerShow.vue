@@ -3,7 +3,7 @@
     <div class="answer-show-title">
       <img class="avatar" style="width: 38px; height: 38px; border-radius:4px" :src="'http://127.0.0.1:8000/' + answer.owner.info.userimg_url"/>
       <div class="name">{{answer.owner.username}}</div>
-      <div class="something">1{{answer.owner.info.something}}</div>
+      <div class="something">～{{answer.owner.info.something}}</div>
       <div class="agree">{{answer.ansagree}}人赞同了该回答</div>
     </div>
     <div>
@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     agree: function() {
+     
       console.log(this.answer)
       if(this.answer.owner == this.$store.state.nowuser.name) {
         this.$message({
@@ -57,6 +58,7 @@ export default {
       }
     },
     against: function() {
+      
       console.log(this.answer)
       if(this.answer.owner == this.$store.state.nowuser.name) {
         this.$message({
@@ -86,7 +88,6 @@ export default {
     }
   },
   mounted () {
-
   }
 }
 </script>
@@ -120,7 +121,7 @@ export default {
 
 .answer-show .something {
   position: absolute;
-  left: 79px;
+  left: 83px;
   z-index: 2000;
   top: 36px;
 }

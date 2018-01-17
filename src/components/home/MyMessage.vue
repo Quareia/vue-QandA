@@ -1,9 +1,13 @@
 <template>
   <div class="message">
     <div style="float:left"><i style="font-size:20px;color:#b1b2b5;font-weight:600" class="iconfont icon-community"></i> 未读消息</div><br />
+    <br />
     <div v-for="item in messagelist" :key="item.id">
+
       <div>{{item.content}}</div>
-      <el-button size="mini" round @click="readmessage(item)">我知道了</el-button>
+      <el-button size="mini" @click="readmessage(item)" style="background:transparent;border:none;">
+        <i class="iconfont icon-close"></i>
+      </el-button>
     </div>
     <!-- <el-button type="success" round @click="addmessage">发送消息</el-button> -->
     <el-pagination
@@ -145,4 +149,7 @@ let axios = require('axios');
 </script>
 <style>
 
+.message {
+  
+}
 </style>

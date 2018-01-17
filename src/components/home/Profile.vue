@@ -14,12 +14,8 @@
             <el-button v-if="islogin" @click="editprofile">修改个人信息</el-button>
           </div>
            <el-dialog :visible.sync="editformvisable" :center="true">
-            <el-form :model="userinfo">
-              <el-form-item label="个人信息">
-                <el-input v-model="userinfo.something" auto-complete="off" :placeholder="something"></el-input>
-              </el-form-item>
-          
-            </el-form>
+
+            <el-input v-model="editsomething" auto-complete="off" :placeholder="something"></el-input>
             <el-button @click="confirmedit">确认</el-button>
             <el-button @click="editformvisable = false">取消</el-button>
           </el-dialog>
@@ -43,21 +39,18 @@
 
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" menu-trigger="click">
               <router-link to='/profile'>
-                <el-menu-item index="1" @click="changeIndex('1')">动态</el-menu-item>
+                <el-menu-item index="1" @click="changeIndex('1')">回答</el-menu-item>
               </router-link>
-              <router-link to='/profile/my_answers'>
-                <el-menu-item index="2" @click="changeIndex('2')">回答</el-menu-item>
+              <router-link to='/profile/my_question'>
+                <el-menu-item index="2" @click="changeIndex('2')">提问</el-menu-item>
               </router-link>
-              <router-link to='/profile'>
-                <el-menu-item index="3" @click="changeIndex('3')">提问</el-menu-item>
-              </router-link>
-              <el-submenu index="4" @click="changeIndex('1')">
+              <el-submenu index="3" @click="changeIndex('3')">
               <template slot="title">关注</template>
                 <router-link to='/profile/follow_topic'>
-                  <el-menu-item index="4-1">关注的话题</el-menu-item>
+                  <el-menu-item index="3-1">关注的话题</el-menu-item>
                 </router-link>
                 <router-link to='/profile/follow_question'>
-                  <el-menu-item index="4-2">关注的问题</el-menu-item>
+                  <el-menu-item index="3-2">关注的问题</el-menu-item>
                 </router-link>
               </el-submenu>
             </el-menu>
@@ -96,6 +89,7 @@ export default {
   data() {
     return {
       // hasAavtar: false,
+      editsomething:'',
       nowuser:'',
       islogin: false,
       activeIndex: '1',
@@ -133,22 +127,26 @@ export default {
   },
   methods: {
     editprofile() {
-        this.editformvisable = true
+      this.editformvisable = true
+      this.editsomething = ''
     },
     confirmedit() {
-        let instance = axios.create({
-          headers: {"X-CSRFToken": this.$cookie.get('csrftoken')}
-        });
-         
-        instance.put('/api/userinfos/' + this.nowuser.id + '/',param).then(res => {
-
-        })
+      let instance = axios.create({
+        headers: {"X-CSRFToken": this.$cookie.get('csrftoken')}
+      });
+      let param = new FormData();
+      param.append('something',this.editsomething);
+      instance.put('/api/userinfos/' + this.nowuser.id + '/' ,param).then(res => {
+        console.log(res.data)
+        this.something = res.data.something
+      })
+      this.editformvisable = false
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
     changeIndex(index) {
-        this.activeIndex = index;
+      this.activeIndex = index;
     },
     update(e) {
       let file = e.target.files[0];

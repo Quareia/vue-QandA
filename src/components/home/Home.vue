@@ -88,6 +88,11 @@ let axios = require('axios');
 
 .home .home-side .el-card {
   margin-bottom: 8px;
+  text-align: left;
+}
+
+.home-side .el-card__body {
+  padding: 10px;
 }
 
 .home .home-homeList {

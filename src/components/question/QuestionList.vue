@@ -43,7 +43,7 @@
           v-model="questionedit.description" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="success" @click="confirmedit">确认</el-button>
+      <el-button type="primary" @click="confirmedit">确认</el-button>
       <el-button type="info"  @click= "editformvisable = false">取消</el-button>
     </el-dialog>
   </div>
@@ -134,7 +134,12 @@ export default {
         let instance = axios.create({
           headers: {"X-CSRFToken": this.csrftoken}
         });
-        instance.patch('/api/questions/' + this.questionedit.id + '/', this.questionedit).then(res => {
+        let data = {
+          description: this.questionedit.description,
+          title: this.questionedit.title,
+          topic: this.questionedit.topic.id
+        }
+        instance.patch('/api/questions/' + this.questionedit.id + '/', data).then(res => {
           let data = res.data
           this.questionlist = this.questionlist.filter(item =>{
             return item.id !== this.questionedit.id

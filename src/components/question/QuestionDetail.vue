@@ -1,20 +1,12 @@
 <template>
   <div id="detail">
     <div class="detail-title">
-      <!-- <div>来自话题：{{question.topic.title}}</div>
-      <div>{{question.title}}</div>
-      <div>{{question.description}}</div> -->
-
-      <!-- {{question}} -->
-
       <question-item
         :nowuser = "nowuser"
         :question = "question"
         :follownum = "question.followers.length"
         :answernum = "question.answers.length"
         />
-
-
     </div>
     <div>
       <answer-queue
@@ -44,7 +36,7 @@ let axios = require('axios');
         },
         questionid: '',
         question: '',
-        islogin: ''
+        islogin: '',
       }
     },
     mounted () {

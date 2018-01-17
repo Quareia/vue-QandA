@@ -1,6 +1,6 @@
 <template>
   <div id="editor">
-    <mavon-editor ref=md @imgAdd="$imgAdd" @save="upload" :toolbars = "toolbars" :value="test1"></mavon-editor>
+    <mavon-editor v-if="islogin" ref=md @imgAdd="$imgAdd" @save="upload" :toolbars = "toolbars" v-model="test1"></mavon-editor>
   </div>
 </template>
 <script>
@@ -50,15 +50,15 @@ let axios = require('axios');
         });
         let param = new FormData();
         param.append('ansto', this.questionid)
-        param.append('description',value);
+        param.append('description', value);
         instance.post('/api/answers/', param).then(res => {
           console.log(res)
           this.$emit('addanswer', res.data)
-            this.$message({
-              message: '回答成功!',
-              type: 'success'
-            });
-            this.answer = ''
+          this.$message({
+            message: '回答成功!',
+            type: 'success'
+          });
+          this.test1 = ''
         }).catch((error)=> {
           this.$message('服务器故障')
         });

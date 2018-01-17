@@ -8,6 +8,7 @@ import QuestionDetail from '@/components/question/QuestionDetail'
 import Topic from '@/components/home/Topic'
 import Profile from '@/components/home/Profile'
 import MyAnswer from '@/components/profile/MyAnswer'
+import MyQuestion from '@/components/profile/MyQuestion'
 import QuestionFollow from '@/components/profile/QuestionFollow'
 import TopicFollow from '@/components/profile/TopicFollow'
 import SigninPage from '@/pages/SigninPage'
@@ -52,9 +53,9 @@ export default new Router({
               component: MyAnswer,
             },
             {
-              path: '/profile/my_answers',
-              name: 'My',
-              component: QuestionFollow,
+              path: '/profile/my_question',
+              name: 'MyQuestion',
+              component: MyQuestion,
             },
             {
               path: '/profile/follow_question',

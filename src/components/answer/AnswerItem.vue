@@ -4,10 +4,10 @@
 
     <div class="answer-item-topic">
       <!-- 来自话题: {{answer.ansto.title}} -->
-      <br />
+      
     </div>
     <div class="answer-owner">
-        <img class="avatar" style="width: 24px; height: 24px; border-radius:2px" :src="'http://127.0.0.1:8000/' + imgurl"/>
+        <img class="avatar" style="width: 24px; height: 24px; border-radius:2px" :src="'http://127.0.0.1:8000/' + answer.owner.info.userimg_url"/>
         <div class="name">{{answer.owner.username}}</div>
         <div class="something">{{answer.owner.info.something}} </div>
     </div>
@@ -24,7 +24,7 @@
           <el-button class="disagree" :class="{isactive2:true,active:isactive2}" type="small"  @click="against">
             <i class="iconfont icon-disagree"></i>
           </el-button>
-          <el-button @click="$emit('answer', answer.id)">我要回答</el-button>
+          <el-button @click="$emit('answer', answer.ansto.id)">我要回答</el-button>
         <!-- <el-badge :value="follownum" class="item"> -->
         <!-- </el-badge> -->
         <el-button v-if="myself" @click="$emit('edit', answer)">编辑</el-button>
@@ -70,6 +70,11 @@ let axios = require('axios');
         console.log(this.showall)
       },
       agree: function() {
+        if (this.isactive1 == true) {
+          this.answer.ansagree--
+          this.isactive1 = false      
+          return
+        }
       console.log(this.answer)
       if(this.answer.owner == this.$store.state.nowuser.name) {
         this.$message({
@@ -91,6 +96,10 @@ let axios = require('axios');
       }
     },
     against: function() {
+      if (this.isactive2 == true) {
+          this.isactive2 = false      
+          return
+        }
       console.log(this.answer)
       if(this.answer.owner == this.$store.state.nowuser.name) {
         this.$message({
@@ -149,11 +158,11 @@ let axios = require('axios');
   clear: both;
   color: rgba(133, 144, 166, 0.7);
 }
+
 .answer-item .showall.active {
   height: auto;
   min-height: 56px;
 }
-
 
 .answer-item-topic {
   /* color: #8590a6; */
@@ -165,12 +174,13 @@ let axios = require('axios');
 
 
 .answer-item .el-card {
-  height: 200px;
+  height: 202px;
   padding: 16px 20px;
 }
 
 .answer-item .el-card__body {
   padding: 0px;
+  padding-bottom: 14px;
 }
 
 .answer-item .answer-owner {
@@ -195,7 +205,7 @@ let axios = require('axios');
   font-size: 15px;
   position: relative;
   top: -20px;
-  left: 36px;
+  left: 48px;
 }
 
 .answer-item .title {
@@ -217,14 +227,19 @@ let axios = require('axios');
 .answer-item .description {
   font-size: 16px;
   line-height: 24px;
-  height: 48px;
+  height: 56px;
   overflow: hidden;
   color: rgba(133, 144, 166, 0.9);
 }
 
 .answer-item-end {
   position: relative;
-  bottom: -10px;
+  bottom: -18px;
+  font-size: 15px;
+}
+
+.answer-item-end .showall.active{
+  position: relative;
   font-size: 15px;
 }
 
@@ -260,6 +275,10 @@ let axios = require('axios');
 .answer-item .isactive2.active {
   color: #ecf5ff;
   background-color: #409eff;
+}
+
+.answer-item .v-show-content .scroll-style {
+  height: auto;
 }
 
 </style>

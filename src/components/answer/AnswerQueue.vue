@@ -4,6 +4,7 @@
       <div v-for="item in answerlist" :key="item.id">
         <answer-show  class="answer-queue"
         :answer = "item"
+        @addanswer = "addanswer"
         @edit = "editanswer">
         </answer-show>
       </div>
@@ -42,7 +43,12 @@ export default {
   },
   methods: {
     addanswer:function(answer) {
-      this.answerlist.push(answer)
+      axios.get('/api/answers/' + answer.id + '/').then((res)=> {
+        console.log(res.data)
+        this.answerlist.push(res.data)
+      })
+      // console.log(answer)
+      // console.log('already push')
     },
     getdata:function() {
       console.log('传过来的是: ' + this.questionid)
