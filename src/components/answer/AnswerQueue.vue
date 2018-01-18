@@ -13,7 +13,7 @@
       layout="prev, pager, next"
       :total="totalnum"
       @current-change="getnextpage"
-      :page-size="5"
+      :page-size="6"
       >
     </el-pagination>
     <div>

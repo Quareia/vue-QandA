@@ -14,7 +14,7 @@
       layout="prev, pager, next"
       :total="totalnum"
       @current-change="getnextpage"
-      :page-size="5"
+      :page-size="6"
       >
     </el-pagination>
     <!-- <el-dialog :visible.sync="editformvisable" :center="true" title="发送消息">
@@ -69,7 +69,7 @@ let axios = require('axios');
         this.messageedit.origin = this.nowuser.id
         instance.post('/api/messages/', this.messageedit).then(res => {
           let data = res.data
-          if(this.messagelist.length < 5) {
+          if(this.messagelist.length < 6) {
             this.messagelist.push(data)
           }
           this.totalnum++

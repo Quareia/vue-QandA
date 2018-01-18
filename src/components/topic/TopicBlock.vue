@@ -19,7 +19,7 @@
       layout="prev, pager, next"
       :total="totalnum"
       @current-change="getnextpage"
-      :page-size="5"
+      :page-size="6"
       >
     </el-pagination>
     <el-dialog :visible.sync="editformvisable" :center="true" :title="edittitle">
@@ -143,7 +143,7 @@ let axios = require('axios');
           this.topicedit.keywords = this.dynamicTags.join(',')
           instance.post(this.requesturl, this.topicedit).then(res => {
             let data = res.data
-            if(this.topiclist.length < 5) {
+            if(this.topiclist.length < 6) {
               this.topiclist.push(data)
             }
             this.totalnum++
