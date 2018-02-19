@@ -25,3 +25,14 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+![](https://raw.githubusercontent.com/Quareia/markdown-pictures/master/1.png)
+
+![](https://raw.githubusercontent.com/Quareia/markdown-pictures/master/2.png)
+
+![](https://raw.githubusercontent.com/Quareia/markdown-pictures/master/3.png)
+
+![](https://raw.githubusercontent.com/Quareia/markdown-pictures/master/4.png)
+
+![](https://raw.githubusercontent.com/Quareia/markdown-pictures/master/5.png)
+
